@@ -8,6 +8,7 @@ google-genai
 groq
 
 # Voice (Phase 2)
+edge-tts
 elevenlabs
 
 # Image processing (Phase 2)

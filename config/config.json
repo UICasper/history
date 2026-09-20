@@ -51,6 +51,9 @@
     "where_it_is_now"
   ],
   "audio": {
+    "tts_provider": "edge",
+    "edge_voice": "en-US-GuyNeural",
+    "edge_rate": "+0%",
     "elevenlabs_voice_id": "REPLACE_ME",
     "elevenlabs_model_id": "eleven_multilingual_v2",
     "music_duck_db_min": 15,

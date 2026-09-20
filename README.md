@@ -18,7 +18,10 @@ data:
   fully tested end-to-end. Illustrations fall back to the free, no-key
   Pollinations API when `GEMINI_API_KEY` is absent (watermarked; Gemini's own
   image gen is watermark-free once a key is added).
-- **Stage 4** (ElevenLabs voice + word timestamps) -- needs `ELEVENLABS_API_KEY`.
+- **Stage 4** (voice + word timestamps) -- fully tested end-to-end using the
+  default free provider, edge-tts (no key needed). Switch to ElevenLabs (paid,
+  needs `ELEVENLABS_API_KEY`) by setting `audio.tts_provider` to
+  `"elevenlabs"` in `config/config.json`.
 - **Stage 5** (Remotion render) -- fully tested end-to-end with a synthetic
   shot list and placeholder audio. See "A note on rendering" below.
 - **Stage 6** (thumbnails + Shorts cover) -- fully tested end-to-end, no API
@@ -62,8 +65,10 @@ machine) is a hard requirement, on top of what `requirements.txt` installs.
    ```
    - `GEMINI_API_KEY` -- required for stages 1-2 (get one free at ai.google.dev).
    - `GROQ_API_KEY` -- optional fallback LLM, not wired up yet.
-   - `ELEVENLABS_API_KEY` -- required for stage 4 (voice). This is the only
-     paid service in the whole project.
+   - `ELEVENLABS_API_KEY` -- only needed if you switch stage 4 to
+     `tts_provider: "elevenlabs"` in `config/config.json`. By default stage 4
+     uses edge-tts, which is free and needs no key -- this is the only
+     service in the whole project that costs money, and it's optional.
    - `SMITHSONIAN_API_KEY`, `RIJKSMUSEUM_API_KEY` -- optional, only needed if
      you want candidates from those museums in addition to The Met (which
      needs no key).
