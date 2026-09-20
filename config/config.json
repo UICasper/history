@@ -34,7 +34,7 @@
     "long_video_max": 12,
     "shorts_extra_min": 2,
     "shorts_extra_max": 3,
-    "style_prompt_suffix": "cute, clean, flat 2D illustration style, consistent limited color palette, no text in the image"
+    "style_prompt_suffix": "cute, clean, flat 2D illustration style, consistent limited color palette, no text in the image, no human faces or portraits -- depict people only as silhouettes, from behind, or as hands/objects in use, and prefer focusing on objects, symbols, maps, and scenes over figures"
   },
   "assets": {
     "detail_crops_min": 10,

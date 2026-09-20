@@ -12,6 +12,7 @@ the render can still be exercised end-to-end.
 """
 
 import json
+import random
 import shutil
 import subprocess
 from datetime import date
@@ -139,8 +140,9 @@ def _prepare_audio_files(
         voice_path = audio_dir / f"{prefix}_voice_placeholder.mp3"
         synth_tone(voice_path, freq=220, duration=total_duration, volume=0.04)
 
-    if music_dir.exists() and any(music_dir.glob("*.mp3")):
-        music_path = next(music_dir.glob("*.mp3"))
+    tracks = list(music_dir.glob("*.mp3")) if music_dir.exists() else []
+    if tracks:
+        music_path = random.choice(tracks)
     else:
         music_path = audio_dir / f"{prefix}_music_placeholder.mp3"
         synth_tone(music_path, freq=110, duration=max(total_duration, 5), volume=0.03)

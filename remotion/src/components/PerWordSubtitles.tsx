@@ -6,60 +6,58 @@ export const PerWordSubtitles: React.FC<{
   brand: Brand;
 }> = ({ words, brand }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, width } = useVideoConfig();
   const t = frame / fps;
 
   if (!words.length) return null;
 
-  let idx = words.findIndex((w) => t >= w.start && t < w.end);
-  if (idx === -1) {
-    idx = words.reduce((best, w, i) => (w.start <= t ? i : best), -1);
-  }
+  const idx = words.findIndex((w) => t >= w.start && t < w.end);
   if (idx === -1) return null;
 
-  const windowSize = 5;
-  const startIdx = Math.max(0, idx - windowSize + 1);
-  const visible = words.slice(startIdx, idx + 1);
+  const word = words[idx];
+  const wordStartFrame = word.start * fps;
+  const wordEndFrame = word.end * fps;
+
+  const pop = interpolate(frame - wordStartFrame, [0, 4, 8], [0.5, 1.12, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const fadeOut = interpolate(
+    frame,
+    [wordEndFrame - 3, wordEndFrame],
+    [1, 0.85],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+  );
 
   return (
     <div
       style={{
         position: "absolute",
-        bottom: 90,
+        top: "68%",
         left: 0,
         right: 0,
         display: "flex",
         justifyContent: "center",
-        alignItems: "flex-end",
-        gap: 14,
-        flexWrap: "wrap",
+        alignItems: "center",
         padding: "0 80px",
       }}
     >
-      {visible.map((w, i) => {
-        const isCurrent = startIdx + i === idx;
-        const wordStartFrame = w.start * fps;
-        const pop = interpolate(frame - wordStartFrame, [0, 6], [0.55, 1], {
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        });
-        return (
-          <span
-            key={startIdx + i}
-            style={{
-              fontSize: 54,
-              fontWeight: 800,
-              fontFamily: "'Work Sans', sans-serif",
-              color: isCurrent ? brand.keywordAccent : brand.text,
-              transform: `scale(${isCurrent ? pop : 1})`,
-              transformOrigin: "bottom center",
-              textShadow: "0 3px 10px rgba(0,0,0,0.7)",
-            }}
-          >
-            {w.word}
-          </span>
-        );
-      })}
+      <span
+        key={idx}
+        style={{
+          fontSize: Math.round(width * 0.075),
+          fontWeight: 800,
+          fontFamily: "'Work Sans', sans-serif",
+          color: brand.text,
+          WebkitTextStroke: `${Math.max(2, Math.round(width * 0.003))}px ${brand.background}`,
+          textShadow: `0 0 ${Math.round(width * 0.02)}px ${brand.keywordAccent}99, 0 6px 14px rgba(0,0,0,0.65)`,
+          transform: `scale(${pop})`,
+          opacity: fadeOut,
+          whiteSpace: "nowrap",
+        }}
+      >
+        {word.word}
+      </span>
     </div>
   );
 };

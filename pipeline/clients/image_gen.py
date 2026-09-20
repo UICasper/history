@@ -35,7 +35,11 @@ def _pollinations_generate(prompt: str, width: int, height: int) -> Image.Image:
     return Image.open(io.BytesIO(resp.content)).convert("RGB")
 
 
+NO_FACES_SUFFIX = ", no human faces, no portraits, silhouettes/hands/objects only"
+
+
 def generate_illustration(prompt: str, width: int = 1024, height: int = 1024) -> Image.Image:
+    prompt = prompt + NO_FACES_SUFFIX
     try:
         return _gemini_generate(prompt)
     except Exception:

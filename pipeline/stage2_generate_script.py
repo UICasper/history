@@ -47,7 +47,10 @@ Write ALL of the following in one response:
 3. illustration_prompts: {illus_min}-{illus_max} prompts for a 2D image
    generator, one per prompt, {illus_style}. Each covers one moment from the
    "how it was used" or "where it came from" chapters where no museum photo
-   exists.
+   exists. Never write a prompt asking for a close-up human face or portrait
+   -- AI-generated faces look distractingly wrong here. If a moment involves
+   a person, describe them from behind, in silhouette, mid-action with the
+   object, or leave people out and focus on the object/setting itself.
 
 4. title_options: exactly 3 title options.
 
