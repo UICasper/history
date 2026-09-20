@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-16",
+  "object": {
+    "museum": "met",
+    "object_id": 320269,
+    "title": "Processional Cross",
+    "object_url": "https://www.metmuseum.org/art/collection/search/320269",
+    "pick_reason": "Most visitors guess it's a decorative fan -- it was actually raised over crowds to bless worshippers during Orthodox processions."
+  },
+  "metadata": {
+    "title_options": [
+      "This Bronze Object Was Raised Over Crowds -- Here's Why",
+      "Nobody Guesses What This Cross Was For",
+      "The Met's Strangest Cross, Explained in 3 Minutes"
+    ],
+    "description": "This bronze cross wasn't made to hang still...\n\n00:00 The mystery object\n00:22 Full reveal\n\n#history #museum #ethiopia",
+    "tags": "ethiopian cross, museum object, history facts, the met",
+    "pinned_comment": "So -- would you have guessed what it was for?"
+  },
+  "scripts": {
+    "long": "Look closely at this bronze object...",
+    "shorts": "This bronze cross wasn't made to hang still..."
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "USED FOR WHAT?",
+      "path": "thumbnails\\thumbnail_00.jpg"
+    },
+    {
+      "text": "3000 YEARS OLD",
+      "path": "thumbnails\\thumbnail_01.jpg"
+    },
+    {
+      "text": "NOT WHAT YOU THINK",
+      "path": "thumbnails\\thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails\\shorts_cover.jpg",
+  "publish_status": "not_posted"
+}

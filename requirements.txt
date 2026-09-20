@@ -1,0 +1,22 @@
+# Core pipeline (Phase 1)
+requests
+python-dotenv
+pydantic>=2
+
+# LLM
+google-genai
+groq
+
+# Voice (Phase 2)
+elevenlabs
+
+# Image processing (Phase 2)
+rembg
+onnxruntime
+pillow
+numpy
+
+# Dashboard (Phase 5)
+fastapi
+uvicorn[standard]
+python-multipart

@@ -1,0 +1,94 @@
+{
+  "schedule": {
+    "time": "06:00",
+    "timezone_env_var": "TIMEZONE"
+  },
+  "video": {
+    "long": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "min_duration_sec": 180,
+      "max_duration_sec": 240,
+      "target_word_count_min": 500,
+      "target_word_count_max": 650
+    },
+    "shorts": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "min_duration_sec": 30,
+      "max_duration_sec": 40,
+      "target_word_count_min": 80,
+      "target_word_count_max": 100
+    }
+  },
+  "visual_pacing": {
+    "seconds_per_visual_min": 3,
+    "seconds_per_visual_max": 4,
+    "long_video_visual_count_min": 50,
+    "long_video_visual_count_max": 60
+  },
+  "illustrations": {
+    "long_video_min": 8,
+    "long_video_max": 12,
+    "shorts_extra_min": 2,
+    "shorts_extra_max": 3,
+    "style_prompt_suffix": "cute, clean, flat 2D illustration style, consistent limited color palette, no text in the image"
+  },
+  "assets": {
+    "detail_crops_min": 10,
+    "detail_crops_max": 15,
+    "comparison_objects_min": 3,
+    "comparison_objects_max": 6
+  },
+  "chapters": [
+    "quiz",
+    "reveal",
+    "how_it_was_used",
+    "similar_objects",
+    "where_it_came_from",
+    "where_it_is_now"
+  ],
+  "audio": {
+    "elevenlabs_voice_id": "REPLACE_ME",
+    "elevenlabs_model_id": "eleven_multilingual_v2",
+    "music_duck_db_min": 15,
+    "music_duck_db_max": 20,
+    "sfx_min_below_voice_db": 15,
+    "chapter_change_sfx": "assets/audio/page_turn.mp3",
+    "background_music_dir": "assets/audio/music"
+  },
+  "brand": {
+    "fonts": {
+      "heading": "assets/fonts/Anton-Regular.ttf",
+      "body": "assets/fonts/WorkSans-Bold.ttf"
+    },
+    "colors": {
+      "accent": "#FFD400",
+      "background": "#111111",
+      "text": "#FFFFFF",
+      "subtitle_keyword_accent": "#FF5A36"
+    },
+    "thumbnail": {
+      "width": 1280,
+      "height": 720,
+      "variant_count": 3
+    },
+    "shorts_cover": {
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "apis": {
+    "llm_primary": "gemini",
+    "llm_fallback": "groq",
+    "image_primary": "gemini",
+    "image_fallback": "pollinations",
+    "museums": ["met", "smithsonian", "rijksmuseum"]
+  },
+  "paths": {
+    "output_dir": "output",
+    "used_objects_file": "data/used_objects.json"
+  }
+}

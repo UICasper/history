@@ -1,0 +1,12 @@
+.env
+.venv/
+.claude/
+__pycache__/
+*.pyc
+node_modules/
+remotion/dist/
+remotion/public/render/
+output/
+data/used_objects.json.bak
+*.log
+.DS_Store
