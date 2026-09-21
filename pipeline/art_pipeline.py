@@ -135,8 +135,18 @@ def pick_painting(index: int, run_date: Optional[date] = None, force: bool = Fal
 ART_PROMPT_TEMPLATE = """\
 You are writing the script and YouTube metadata for one episode of a daily
 "Art Explainer" series: a fast, engaging 1-2 minute walkthrough of ONE real
-painting for a curious, general, English-speaking audience. Tone: punchy,
-vivid, no fluff -- pack in as many genuinely interesting facts as fit.
+painting for a curious, general, English-speaking audience.
+
+Tone: talk like you're texting a friend who's standing next to you at the
+museum and you can't wait to point out the juicy bit -- casual, playful,
+a little cheeky, genuinely amused by this stuff. Use contractions ("it's",
+"here's", "he's totally"), first-person asides, and a sense of humor where
+it fits naturally. Zero museum-label language: ban words and phrases like
+"masterpiece", "depicts", "showcases", "captures the essence of",
+"neoclassical clarity", "tour de force", "timeless", "a testament to" --
+if a museum wall plaque could have written the sentence, rewrite it. Still
+pack in real, specific facts (dates, names, materials, the actual story) --
+this is fun AND informative, never fluff with no substance.
 
 The painting (JSON):
 {object_json}
@@ -165,8 +175,11 @@ Write ALL of the following in one response:
    the subject/story, technique or materials, one hidden detail or symbol
    worth zooming into, and a short closing line (a punchy final fact or a
    question back to the viewer -- never "thanks for watching" or any
-   sign-off). Keep every sentence tight -- this is a rapid-fire highlight
-   reel, not a lecture.
+   sign-off). Write it the way you'd actually talk out loud -- short
+   sentences, the odd "okay but here's the wild part", reactions like
+   "wait, look at this" -- not the way it would be written in an essay.
+   Keep every sentence tight -- this is a rapid-fire highlight reel, not
+   a lecture, and definitely not a museum audio guide.
 
 2. title_options: exactly 3 title options.
 
