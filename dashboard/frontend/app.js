@@ -38,6 +38,19 @@ async function listDays() {
   return apiGet("/api/days");
 }
 
+async function listArtDays() {
+  if (STATIC_MODE) return fetch("data/art_days.json").then((r) => (r.ok ? r.json() : []));
+  return apiGet("/api/art/days");
+}
+
+async function getArtDay(dateStr) {
+  if (STATIC_MODE) return fetch(`data/${dateStr}/art/items.json`).then((r) => {
+    if (!r.ok) throw new Error("not found");
+    return r.json();
+  });
+  return apiGet(`/api/art/days/${dateStr}`);
+}
+
 async function getPackage(dateStr) {
   if (STATIC_MODE) return fetch(`data/${dateStr}/package.json`).then((r) => {
     if (!r.ok) throw new Error("not found");
@@ -68,7 +81,7 @@ function fileUrl(dateStr, relPath) {
 const REGEN_STAGES = [
   { id: "object", label: "Pick new object" },
   { id: "script", label: "Rewrite script" },
-  { id: "assets", label: "New illustrations" },
+  { id: "assets", label: "New images" },
   { id: "render", label: "Re-render video" },
   { id: "thumbnails", label: "Re-render thumbnail" },
 ];
@@ -297,14 +310,143 @@ async function loadHistory() {
   }
 }
 
+let currentArtDate = null;
+let currentArtItems = null;
+
+async function loadArt(dateStr) {
+  currentArtDate = dateStr;
+  document.getElementById("dateBadge").textContent = dateStr;
+  const app = document.getElementById("app");
+  app.innerHTML = `<div class="empty-state">Loading ${dateStr}...</div>`;
+  try {
+    currentArtItems = await getArtDay(dateStr);
+    renderArt();
+  } catch (e) {
+    app.innerHTML = `<div class="empty-state">No art pieces for ${dateStr} yet.</div>`;
+  }
+}
+
+async function loadArtDefault() {
+  const app = document.getElementById("app");
+  app.innerHTML = `<div class="empty-state">Loading...</div>`;
+  try {
+    const days = await listArtDays();
+    if (!days.length) {
+      app.innerHTML = `<div class="empty-state">No art pieces yet.</div>`;
+      return;
+    }
+    loadArt(days[0]);
+  } catch (e) {
+    app.innerHTML = `<div class="empty-state">Could not load art pieces.</div>`;
+  }
+}
+
+function renderArt() {
+  const d = currentArtDate;
+  const app = document.getElementById("app");
+
+  app.innerHTML =
+    `<div class="eyebrow" style="padding:0 16px">Art Explainer -- ${d}</div>` +
+    currentArtItems
+      .map(
+        (pkg) => `
+    <div class="section-label">${pkg.object.title || "Untitled"}${pkg.object.artist ? " &mdash; " + pkg.object.artist : ""}</div>
+    <div class="card">
+      <video controls class="shorts-video" src="${fileUrl(d, pkg.video)}"></video>
+      <div class="card-row" style="margin-top:10px">
+        <div class="card-label">Video</div>
+        <a class="btn btn-primary" href="${fileUrl(d, pkg.video)}" download>Download</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-row"><div class="card-label">Publish status</div></div>
+      <div class="publish-toggle">
+        <button class="art-pub ${pkg.publish_status === "not_posted" ? "active" : ""}" data-idx="${pkg.index}" data-status="not_posted">Not posted</button>
+        <button class="art-pub ${pkg.publish_status === "posted" ? "active" : ""}" data-idx="${pkg.index}" data-status="posted">Posted</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label" style="margin-bottom:8px">Title options</div>
+      ${pkg.metadata.title_options
+        .map(
+          (t, i) => `
+        <div class="title-option">
+          <div class="title-badge">${i + 1}</div>
+          <div class="title-text">${t}</div>
+          <button class="btn btn-ghost btn-small" data-copy="${encodeURIComponent(t)}">Copy</button>
+        </div>`
+        )
+        .join("")}
+    </div>
+    <div class="card">
+      <div class="card-row">
+        <div class="card-label">Description</div>
+        <button class="btn btn-ghost btn-small" data-copy="${encodeURIComponent(pkg.metadata.description)}">Copy</button>
+      </div>
+      <div class="field-box">${pkg.metadata.description}</div>
+    </div>
+    <div class="card">
+      <div class="card-row">
+        <div class="card-label">Tags</div>
+        <button class="btn btn-ghost btn-small" data-copy="${encodeURIComponent(pkg.metadata.tags)}">Copy</button>
+      </div>
+      <div class="field-box">${pkg.metadata.tags}</div>
+    </div>
+    <div class="card">
+      <div class="card-row">
+        <div class="card-label">Pinned comment</div>
+        <button class="btn btn-ghost btn-small" data-copy="${encodeURIComponent(pkg.metadata.pinned_comment)}">Copy</button>
+      </div>
+      <div class="field-box">${pkg.metadata.pinned_comment}</div>
+    </div>
+    <div class="card">
+      <details>
+        <summary>Script</summary>
+        <div class="script-body">${pkg.script}</div>
+      </details>
+    </div>
+    <div style="height:12px"></div>
+  `
+      )
+      .join("");
+
+  app.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", () => copyText(decodeURIComponent(btn.dataset.copy), btn));
+  });
+  app.querySelectorAll(".art-pub").forEach((btn) => {
+    btn.addEventListener("click", () => setArtPublishStatus(parseInt(btn.dataset.idx, 10), btn.dataset.status));
+  });
+  if (STATIC_MODE) {
+    app.querySelectorAll(".art-pub").forEach((btn) => {
+      btn.disabled = true;
+    });
+  }
+}
+
+async function setArtPublishStatus(index, status) {
+  try {
+    await apiPost(`/api/art/days/${currentArtDate}/${index}/publish-status`, { status });
+    currentArtItems = await getArtDay(currentArtDate);
+    renderArt();
+    showToast(status === "posted" ? "Marked as posted" : "Marked as not posted");
+  } catch (e) {
+    showToast("Failed to update status");
+  }
+}
+
 function setActiveNav(which) {
   document.getElementById("navToday").classList.toggle("active", which === "today");
+  document.getElementById("navArt").classList.toggle("active", which === "art");
   document.getElementById("navHistory").classList.toggle("active", which === "history");
 }
 
 document.getElementById("navToday").addEventListener("click", () => {
   setActiveNav("today");
   loadDay(currentDate || todayStr());
+});
+document.getElementById("navArt").addEventListener("click", () => {
+  setActiveNav("art");
+  loadArtDefault();
 });
 document.getElementById("navHistory").addEventListener("click", () => {
   setActiveNav("history");

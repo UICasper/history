@@ -2,8 +2,11 @@
 
 Daily automated pipeline that turns one CC0 museum object into a ready-to-upload
 YouTube content package (long video + Shorts + thumbnails + metadata), viewable
-from a mobile dashboard. YouTube upload is manual -- this project never calls
-the YouTube API.
+from a mobile dashboard. A second stream, **Art Explainer**, does the same for
+two real paintings a day as short 1-2 minute videos. YouTube upload is manual
+-- this project never calls the YouTube API. Every image in every video is a
+real photo (museum object or painting) -- nothing on screen is AI-generated;
+the only AI involved is the script-writing LLM.
 
 ## Status
 
@@ -14,10 +17,10 @@ data:
 - **Stage 1** (pick object) -- Met API tested live; the LLM pick step needs
   `GEMINI_API_KEY`.
 - **Stage 2** (script + metadata) -- needs `GEMINI_API_KEY`.
-- **Stage 3** (assets: images, crops, comparisons, illustrations, rembg) --
-  fully tested end-to-end. Illustrations fall back to the free, no-key
-  Pollinations API when `GEMINI_API_KEY` is absent (watermarked; Gemini's own
-  image gen is watermark-free once a key is added).
+- **Stage 3** (assets: images, crops, comparisons, rembg) -- fully tested
+  end-to-end. Every image is a real photo from the museum's collection --
+  detail crops of the object itself plus photos of real comparison objects.
+  No AI-generated imagery anywhere in this stream.
 - **Stage 4** (voice + word timestamps) -- fully tested end-to-end using the
   default free provider, edge-tts (no key needed). Switch to ElevenLabs (paid,
   needs `ELEVENLABS_API_KEY`) by setting `audio.tts_provider` to
@@ -31,6 +34,13 @@ data:
   real stage output (today view, copy buttons, publish toggle, regenerate).
 - **Scheduling** -- Windows Task Scheduler script and a GitHub Actions
   workflow are provided; neither has been run on a live schedule yet.
+- **Art Explainer** (`pipeline/art_pipeline.py` + `run_art.py`) -- a second,
+  separate content stream: 2 real paintings/day (config:
+  `art_explainer.pieces_per_day`), each a 1-2 minute vertical video covering
+  the whole painting via real crops/pans -- no AI imagery, same as the main
+  stream. Reuses the main pipeline's LLM/voice/render/thumbnail plumbing.
+  Shown in the dashboard under its own "Art" tab. See "Running the Art
+  Explainer" below.
 
 ## A note on rendering
 
@@ -64,7 +74,12 @@ machine) is a hard requirement, on top of what `requirements.txt` installs.
    Copy-Item .env.example .env
    ```
    - `GEMINI_API_KEY` -- required for stages 1-2 (get one free at ai.google.dev).
-   - `GROQ_API_KEY` -- optional fallback LLM, not wired up yet.
+   - `GROQ_API_KEY` -- optional but recommended: free, automatic fallback for
+     stages 1/2 and the Art Explainer's script stage. Gemini's free tier
+     sometimes returns transient 503s ("high demand"); after Gemini's own
+     retries are exhausted, `pipeline/clients/llm_client.py` falls through to
+     Groq (Llama 3.3 70B) instead of failing the run. Get one free at
+     console.groq.com (sign in with Google/GitHub, no card needed).
    - `ELEVENLABS_API_KEY` -- only needed if you switch stage 4 to
      `tts_provider: "elevenlabs"` in `config/config.json`. By default stage 4
      uses edge-tts, which is free and needs no key -- this is the only
@@ -78,9 +93,9 @@ machine) is a hard requirement, on top of what `requirements.txt` installs.
 ## Config
 
 `config/config.json` is the single source of truth for schedule time, video
-dimensions, pacing, illustration counts, brand fonts/colors, and which
-LLM/image/museum providers are primary vs. fallback. Edit it directly; no
-code changes needed for most tuning. Brand fonts (Anton + Work Sans, both
+dimensions, pacing, asset counts, brand fonts/colors, Art Explainer settings,
+and which LLM/museum providers are primary vs. fallback. Edit it directly;
+no code changes needed for most tuning. Brand fonts (Anton + Work Sans, both
 OFL-licensed) are already bundled under `assets/fonts/`.
 
 ## Running the full pipeline
@@ -100,7 +115,7 @@ with `force=True`. A run's log is at `output/<YYYY-MM-DD>/run.log`.
 ```powershell
 .\.venv\Scripts\python.exe -m pipeline.stage1_pick_object      # pick today's object
 .\.venv\Scripts\python.exe -m pipeline.stage2_generate_script  # script + metadata
-.\.venv\Scripts\python.exe -m pipeline.stage3_assets           # images/crops/illustrations/rembg
+.\.venv\Scripts\python.exe -m pipeline.stage3_assets           # images/crops/comparisons/rembg
 .\.venv\Scripts\python.exe -m pipeline.stage4_voice            # ElevenLabs voice + timestamps
 .\.venv\Scripts\python.exe -m pipeline.stage5_render           # Remotion render + ffmpeg mux
 .\.venv\Scripts\python.exe -m pipeline.stage6_thumbnails       # thumbnails + Shorts cover
@@ -110,6 +125,21 @@ with `force=True`. A run's log is at `output/<YYYY-MM-DD>/run.log`.
 Re-running a stage command re-picks/regenerates only that stage; downstream
 stages will pick up the new cached input the next time they run. The
 dashboard's per-stage "Regenerate" buttons do the same thing over the API.
+
+## Running the Art Explainer
+
+```powershell
+.\.venv\Scripts\python.exe -m pipeline.run_art              # today, both pieces
+.\.venv\Scripts\python.exe -m pipeline.run_art --date 2026-09-20
+.\.venv\Scripts\python.exe -m pipeline.run_art --force
+```
+
+Each piece caches to the same `output/<date>/` directory as flat
+`art{N}_pick.json` / `art{N}_script.json` / etc. stage files, with its media
+under `output/<date>/art/<N>/` (so `art1`, `art2`, ... never collide with the
+main object's own `stage1_object.json` etc. or with each other). `data/
+used_objects.json` is shared with the main stream -- a painting picked here
+is never picked again by either stream.
 
 ## Dashboard
 
@@ -131,8 +161,9 @@ separately (e.g. Cloudflare Pages) as static-only, point
 - **GitHub Actions** (alternative): `.github/workflows/daily.yml` runs on a
   cron schedule (edit the UTC hour to match your timezone) or via manual
   dispatch. Add your API keys as repo secrets with the same names as in
-  `.env.example`. It uploads `output/` as a build artifact each run, and
-  also publishes the static dashboard (see next section).
+  `.env.example`. It runs both `pipeline.run` and `pipeline.run_art`, uploads
+  `output/` as a build artifact each run, and also publishes the static
+  dashboard (see next section).
 
 ## Viewing the dashboard from your phone, anywhere
 
@@ -165,20 +196,23 @@ serve `docs/` with any static file server.
 ```
 config/             brand + schedule config (config.json)
 pipeline/            Python pipeline
-  clients/           museum API / Gemini / ElevenLabs / image-gen / ffmpeg clients
+  clients/           museum API / Gemini / edge-tts / ElevenLabs / rembg / ffmpeg clients
   utils/              config loading, per-stage disk cache, logging, used-objects tracking
-  stageN_*.py         one file per pipeline stage (1-7)
-  run.py              daily orchestrator (stage1 -> stage7)
+  stageN_*.py         one file per main-stream stage (1-7)
+  art_pipeline.py     Art Explainer: pick/script/assets/voice/render/thumbnail/package
+  run.py              main daily orchestrator (stage1 -> stage7)
+  run_art.py          Art Explainer daily orchestrator (N pieces/day)
   schemas.py          pydantic schemas for structured LLM output
 data/
-  used_objects.json   running list of objects already featured, never repeated
+  used_objects.json   running list of objects/paintings already featured, never repeated
 remotion/             Remotion (React) render project -- picture only, see "A note on rendering"
 dashboard/
   backend/            FastAPI (main.py)
-  frontend/            plain HTML/JS, mobile-first
+  frontend/            plain HTML/JS, mobile-first (Today / Art / History tabs)
 assets/               brand fonts (bundled), CC0 music/SFX (drop your own into assets/audio/)
 scripts/               scheduling helpers (Windows Task Scheduler) + build_static_site.py
 .github/workflows/     GitHub Actions daily schedule (alternative) + static-site publish
 docs/                  static (read-only) dashboard build for GitHub Pages -- generated, committed by CI
 output/YYYY-MM-DD/     per-day stage cache + final content package (gitignored)
+  art/<N>/             Art Explainer piece N's media (gitignored)
 ```

@@ -5,7 +5,7 @@ pydantic>=2
 
 # LLM
 google-genai
-groq
+# Groq fallback (pipeline/clients/groq_client.py) uses plain requests, no SDK needed
 
 # Voice (Phase 2)
 edge-tts

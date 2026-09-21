@@ -29,18 +29,11 @@
     "long_video_visual_count_min": 50,
     "long_video_visual_count_max": 60
   },
-  "illustrations": {
-    "long_video_min": 8,
-    "long_video_max": 12,
-    "shorts_extra_min": 2,
-    "shorts_extra_max": 3,
-    "style_prompt_suffix": "cute, clean, flat 2D illustration style, consistent limited color palette, no text in the image, no human faces or portraits -- depict people only as silhouettes, from behind, or as hands/objects in use, and prefer focusing on objects, symbols, maps, and scenes over figures"
-  },
   "assets": {
-    "detail_crops_min": 10,
-    "detail_crops_max": 15,
-    "comparison_objects_min": 3,
-    "comparison_objects_max": 6
+    "detail_crops_min": 12,
+    "detail_crops_max": 18,
+    "comparison_objects_min": 6,
+    "comparison_objects_max": 10
   },
   "chapters": [
     "quiz",
@@ -79,6 +72,26 @@
       "variant_count": 3
     },
     "shorts_cover": {
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "art_explainer": {
+    "pieces_per_day": 2,
+    "video": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30
+    },
+    "duration_min_sec": 55,
+    "duration_max_sec": 100,
+    "target_word_count_min": 140,
+    "target_word_count_max": 230,
+    "detail_crops_min": 8,
+    "detail_crops_max": 14,
+    "seconds_per_visual_min": 3,
+    "seconds_per_visual_max": 4.5,
+    "thumbnail": {
       "width": 1080,
       "height": 1920
     }

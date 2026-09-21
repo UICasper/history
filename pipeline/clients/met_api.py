@@ -5,10 +5,11 @@ import requests
 BASE = "https://collectionapi.metmuseum.org/public/collection/v1"
 
 
-def search_object_ids(query: str, has_images: bool = True) -> List[int]:
-    resp = requests.get(
-        f"{BASE}/search", params={"q": query, "hasImages": has_images}, timeout=30
-    )
+def search_object_ids(query: str, has_images: bool = True, department_id: int = None) -> List[int]:
+    params = {"q": query, "hasImages": has_images}
+    if department_id is not None:
+        params["departmentId"] = department_id
+    resp = requests.get(f"{BASE}/search", params=params, timeout=30)
     resp.raise_for_status()
     data = resp.json()
     return data.get("objectIDs") or []

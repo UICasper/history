@@ -58,7 +58,6 @@ def _resolve_shot_image(
     resolved = dict(shot)
     motion = shot["motion"]
     asset_type = shot["asset_type"]
-    ref = shot.get("asset_ref", "") or ""
 
     if motion == "data_animation":
         resolved["counterLabel"] = shot.get("notes") or None
@@ -77,14 +76,10 @@ def _resolve_shot_image(
         resolved["image"] = _copy_asset(out_dir / stage3["main_image"], public_dir, "reveal_main.jpg")
         return resolved
 
-    illustration_by_id = {i["id"]: i["path"] for i in stage3.get("illustrations", [])}
-    if asset_type == "illustration" and ref in illustration_by_id:
-        src_rel = illustration_by_id[ref]
-    else:
-        pool = pools.get(asset_type) or pools.get("museum_image_crop") or [stage3["main_image"]]
-        i = counters.get(asset_type, 0) % len(pool)
-        counters[asset_type] = i + 1
-        src_rel = pool[i]
+    pool = pools.get(asset_type) or pools.get("museum_image_crop") or [stage3["main_image"]]
+    i = counters.get(asset_type, 0) % len(pool)
+    counters[asset_type] = i + 1
+    src_rel = pool[i]
 
     src = out_dir / src_rel
     dest_name = f"shot_{asset_type}_{abs(hash(src_rel)) % 100000}{Path(src_rel).suffix}"
@@ -96,7 +91,6 @@ def _build_pools(stage3: dict) -> dict:
     return {
         "museum_image_crop": stage3.get("detail_crops") or [stage3["main_image"]],
         "comparison_object": [c["path"] for c in stage3.get("comparison_objects", [])] or [stage3["main_image"]],
-        "illustration": [i["path"] for i in stage3.get("illustrations", [])] or [stage3["main_image"]],
     }
 
 
@@ -206,17 +200,20 @@ def _prepare_props(
     return long_props, shorts_props
 
 
-def _render_sequence(composition_id: str, props_path: Path, seq_dir: Path) -> None:
+def _render_sequence(composition_id: str, props_path: Path, seq_dir: Path, port: int = 3217) -> None:
     """Render a PNG sequence instead of a video. Remotion's own video encoding
     step also shells out to its bundled ffmpeg, which is unreliable here (see
     module docstring) -- rendering stills only uses the Rust compositor, which
     works fine, and we encode the sequence ourselves with the system ffmpeg.
+
+    `port` is a distinct dev-server port per caller so concurrent renders
+    (e.g. the two Art Explainer pieces running in parallel) don't collide.
     """
     seq_dir.mkdir(parents=True, exist_ok=True)
     subprocess.run(
         [
             "npx", "remotion", "render", "src/index.ts", composition_id, str(seq_dir),
-            f"--props={props_path}", "--port=3217", "--sequence", "--image-format=png",
+            f"--props={props_path}", f"--port={port}", "--sequence", "--image-format=png",
         ],
         cwd=str(REMOTION_DIR),
         check=True,

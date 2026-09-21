@@ -6,7 +6,7 @@ from datetime import date
 from typing import Optional
 
 from .clients import met_api
-from .clients.gemini_client import generate_structured
+from .clients.llm_client import generate_structured
 from .schemas import VideoPackage
 from .utils.cache import load_stage, save_stage
 from .utils.config import load_config
@@ -44,34 +44,27 @@ Write ALL of the following in one response:
    - 3-30s: 4-5 key points
    - 30-40s: a cliffhanger that cuts off and points to the full video
 
-3. illustration_prompts: {illus_min}-{illus_max} prompts for a 2D image
-   generator, one per prompt, {illus_style}. Each covers one moment from the
-   "how it was used" or "where it came from" chapters where no museum photo
-   exists. Never write a prompt asking for a close-up human face or portrait
-   -- AI-generated faces look distractingly wrong here. If a moment involves
-   a person, describe them from behind, in silhouette, mid-action with the
-   object, or leave people out and focus on the object/setting itself.
+3. title_options: exactly 3 title options.
 
-4. title_options: exactly 3 title options.
-
-5. description: a YouTube description. First 2 lines are the hook. Include
+4. description: a YouTube description. First 2 lines are the hook. Include
    approximate timestamps matching the chapters. End with hashtags.
 
-6. tags: comma-separated YouTube tags.
+5. tags: comma-separated YouTube tags.
 
-7. pinned_comment: a short pinned comment text that invites engagement
+6. pinned_comment: a short pinned comment text that invites engagement
    (e.g. restates the closing question).
 
-8. thumbnail_text_options: 3 short (2-4 word) high-contrast hook phrases
+7. thumbnail_text_options: 3 short (2-4 word) high-contrast hook phrases
    for the thumbnail, e.g. "USED FOR WHAT?", "3000 YEARS OLD". ALL CAPS.
 
-9. shot_list: one entry per visual across the ENTIRE long video, roughly
+8. shot_list: one entry per visual across the ENTIRE long video, roughly
    every {pace_min}-{pace_max} seconds (~{shot_count_min}-{shot_count_max}
-   entries total), covering all six chapters in order. Each entry picks
-   asset_type (museum_image_crop / comparison_object / illustration /
+   entries total), covering all six chapters in order. Every shot must use
+   a REAL photo -- no AI-generated imagery anywhere in this video. Each
+   entry picks asset_type (museum_image_crop / comparison_object /
    code_animation) and motion (parallax / spotlight / annotation / reveal /
-   static / data_animation), with exactly one motion per shot, never stacked.
-   asset_ref should be a short identifier (e.g. "crop_03", "illus_02",
+   static / data_animation), with exactly one motion per shot, never
+   stacked. asset_ref should be a short identifier (e.g. "crop_03",
    "comparison_01", "map_animation", "timeline_animation").
 """
 
@@ -80,7 +73,6 @@ def _build_prompt(object_data: dict, pick_reason: str) -> str:
     cfg = load_config()
     v = cfg["video"]
     pacing = cfg["visual_pacing"]
-    illus = cfg["illustrations"]
     return PROMPT_TEMPLATE.format(
         object_json=met_api.summarize_for_llm(object_data),
         pick_reason=pick_reason,
@@ -92,9 +84,6 @@ def _build_prompt(object_data: dict, pick_reason: str) -> str:
         shorts_max=v["shorts"]["target_word_count_max"],
         shorts_duration_min=v["shorts"]["min_duration_sec"],
         shorts_duration_max=v["shorts"]["max_duration_sec"],
-        illus_min=illus["long_video_min"],
-        illus_max=illus["long_video_max"],
-        illus_style=illus["style_prompt_suffix"],
         pace_min=pacing["seconds_per_visual_min"],
         pace_max=pacing["seconds_per_visual_max"],
         shot_count_min=pacing["long_video_visual_count_min"],
@@ -118,9 +107,8 @@ def run(stage1_result: dict, run_date: Optional[date] = None, force: bool = Fals
     result = package.model_dump()
     save_stage(STAGE_NAME, result, run_date)
     logger.info(
-        "stage2: done (long_script=%d words, %d illustration prompts, %d shots)",
+        "stage2: done (long_script=%d words, %d shots)",
         len(result["long_script"].split()),
-        len(result["illustration_prompts"]),
         len(result["shot_list"]),
     )
     return result

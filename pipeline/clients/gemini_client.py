@@ -12,10 +12,11 @@ T = TypeVar("T", bound=BaseModel)
 _client = None
 
 # Gemini's free tier returns transient 503s ("high demand") fairly often;
-# this runs unattended once a day, so it retries with backoff instead of
-# failing the whole run over a temporary blip.
-_MAX_ATTEMPTS = 4
-_RETRY_BACKOFF_SEC = [5, 15, 30]
+# a couple of quick retries absorb a short blip. Anything longer than that,
+# llm_client.py fails over to Groq instead of sitting here -- no need for a
+# long backoff when there's a fast, free fallback one call away.
+_MAX_ATTEMPTS = 3
+_RETRY_BACKOFF_SEC = [5, 15]
 
 
 def _get_client() -> genai.Client:

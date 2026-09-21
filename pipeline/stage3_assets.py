@@ -1,9 +1,11 @@
-"""Stage 3: download/crop museum images, fetch comparison objects, generate
-AI illustrations, and split the main object image into rembg parallax layers.
+"""Stage 3: download/crop museum images, fetch comparison objects, and split
+the main object image into rembg parallax layers. Every image used is a
+real photo -- no AI-generated imagery anywhere in this pipeline.
 """
 
 import io
 import random
+import time
 from datetime import date
 from pathlib import Path
 from typing import Optional
@@ -12,8 +14,6 @@ import requests
 from PIL import Image
 
 from .clients import met_api
-from .clients.image_gen import generate_illustration
-from .clients.rembg_client import remove_background
 from .utils.cache import load_stage, output_dir_for, save_stage
 from .utils.config import load_config
 from .utils.logging import get_logger
@@ -21,10 +21,16 @@ from .utils.logging import get_logger
 STAGE_NAME = "stage3_assets"
 
 
-def _download_image(url: str) -> Image.Image:
-    resp = requests.get(url, timeout=60)
-    resp.raise_for_status()
-    return Image.open(io.BytesIO(resp.content)).convert("RGB")
+def _download_image(url: str, attempts: int = 3) -> Image.Image:
+    for attempt in range(attempts):
+        try:
+            resp = requests.get(url, timeout=60)
+            resp.raise_for_status()
+            return Image.open(io.BytesIO(resp.content)).convert("RGB")
+        except requests.RequestException:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(2)
 
 
 def _save_image(img: Image.Image, path: Path) -> None:
@@ -52,7 +58,10 @@ def _find_comparison_objects(obj: dict, count_min: int, count_max: int, exclude_
         or obj.get("department")
         or "ancient"
     )
-    ids = met_api.search_object_ids(query)
+    try:
+        ids = met_api.search_object_ids(query)
+    except requests.RequestException:
+        return []
     random.shuffle(ids)
     found = []
     for oid in ids:
@@ -60,7 +69,7 @@ def _find_comparison_objects(obj: dict, count_min: int, count_max: int, exclude_
             continue
         try:
             cand = met_api.get_object(oid)
-        except requests.HTTPError:
+        except requests.RequestException:
             continue
         if met_api.is_usable_candidate(cand):
             found.append(cand)
@@ -97,7 +106,7 @@ def run(
     for i, url in enumerate(obj.get("additionalImages") or []):
         try:
             img = _download_image(url)
-        except requests.HTTPError:
+        except requests.RequestException:
             continue
         p = assets_dir / f"object_extra_{i:02d}.jpg"
         _save_image(img, p)
@@ -125,7 +134,7 @@ def run(
     for i, cand in enumerate(comparisons):
         try:
             img = _download_image(cand["primaryImage"])
-        except requests.HTTPError:
+        except requests.RequestException:
             continue
         p = assets_dir / "comparisons" / f"comparison_{i:02d}.jpg"
         _save_image(img, p)
@@ -134,27 +143,12 @@ def run(
         )
     logger.info("stage3: %d comparison objects saved", len(comparison_entries))
 
-    logger.info("stage3: generating AI illustrations")
-    illustration_entries = []
-    for illus in stage2_result["illustration_prompts"]:
-        try:
-            img = generate_illustration(illus["prompt"])
-        except Exception as e:
-            logger.warning("stage3: illustration %s failed: %s", illus["id"], e)
-            continue
-        p = assets_dir / "illustrations" / f"{illus['id']}.jpg"
-        _save_image(img, p)
-        illustration_entries.append(
-            {"id": illus["id"], "chapter": illus["chapter"], "path": str(p.relative_to(out_dir))}
-        )
-    logger.info(
-        "stage3: %d/%d illustrations generated",
-        len(illustration_entries),
-        len(stage2_result["illustration_prompts"]),
-    )
-
     logger.info("stage3: running rembg for parallax layers")
     try:
+        from .clients.rembg_client import remove_background  # imported lazily: Windows
+        # Smart App Control intermittently blocks a numba/rembg DLL (see stage5's
+        # module docstring for the same class of issue with ffmpeg) -- a module-
+        # level import would crash this whole stage over an optional feature.
         foreground = remove_background(main_img)
         fg_path = assets_dir / "parallax_foreground.png"
         foreground.save(fg_path)
@@ -171,7 +165,6 @@ def run(
         "additional_images": additional_paths,
         "detail_crops": crop_paths,
         "comparison_objects": comparison_entries,
-        "illustrations": illustration_entries,
         "parallax": parallax,
     }
     save_stage(STAGE_NAME, result, run_date)

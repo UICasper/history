@@ -12,7 +12,7 @@ from typing import Optional
 import requests
 
 from .clients import met_api
-from .clients.gemini_client import generate_structured
+from .clients.llm_client import generate_structured
 from .schemas import ObjectPick
 from .utils.cache import load_stage, save_stage
 from .utils.logging import get_logger
@@ -35,7 +35,10 @@ def _gather_candidates() -> list[dict]:
     ids: list[int] = []
     terms = random.sample(SEARCH_TERMS, k=len(SEARCH_TERMS))
     for term in terms:
-        ids.extend(met_api.search_object_ids(term))
+        try:
+            ids.extend(met_api.search_object_ids(term))
+        except requests.RequestException:
+            continue
         if len(ids) >= CANDIDATE_POOL_SIZE * 4:
             break
 
@@ -47,8 +50,10 @@ def _gather_candidates() -> list[dict]:
             continue
         try:
             obj = met_api.get_object(object_id)
-        except requests.HTTPError:
-            # The Met's search index includes some deprecated/removed object IDs.
+        except requests.RequestException:
+            # The Met's search index includes some deprecated/removed object IDs,
+            # and the API itself occasionally drops a connection -- either way,
+            # skip this one candidate rather than failing the whole run.
             continue
         if met_api.is_usable_candidate(obj):
             candidates.append(obj)

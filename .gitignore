@@ -6,6 +6,7 @@ __pycache__/
 node_modules/
 remotion/dist/
 remotion/public/render/
+remotion/sample-props/art_tmp_*.json
 output/
 data/used_objects.json.bak
 *.log

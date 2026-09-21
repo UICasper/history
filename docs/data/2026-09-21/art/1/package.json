@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-21",
+  "index": 1,
+  "object": {
+    "museum": "met",
+    "object_id": 436105,
+    "title": "The Death of Socrates",
+    "artist": "Jacques Louis David",
+    "object_url": "https://www.metmuseum.org/art/collection/search/436105",
+    "pick_reason": "This neoclassical masterpiece captures a high-stakes dramatic climax full of philosophical rebellion, hidden historical inaccuracies, and carefully staged emotions perfect for a quick, engaging breakdown."
+  },
+  "metadata": {
+    "title_options": [
+      "Socrates' Last Stand Revealed",
+      "Why David’s Socrates Shocks Us",
+      "The Hidden Symbol in Socrates’ Death"
+    ],
+    "description": "Dive into Jacques-Louis David’s 1787 masterpiece, The Death of Socrates, and discover the dramatic details that make this canvas a timeless protest. From the calm philosopher to a secret scroll, every brushstroke tells a story. #ArtExplainer #Socrates #David #Neoclassicism",
+    "tags": "Art,History,Jacques-Louis David,Socrates,Neoclassicism,Painting analysis,Met Museum,Art history,Quick art facts",
+    "pinned_comment": "Which detail surprised you most? Drop a comment below!"
+  },
+  "script": "The most shocking detail? Socrates looks almost serene while his students panic around the impending hemlock. Jacques-Louis David, 1787, painted this neoclassical drama in oil on a massive canvas, turning a courtroom scene into a stage of philosophy versus death. The story captures the philosopher’s final moments, his hand raised, refusing to flee as Athenian magistrates watch. David’s technique layers luminous whites and deep shadows, giving the figures a sculptural weight. Look closely at the lyre discarded on the floor – a silent nod to the lost harmony of the Republic. And that tiny scroll tucked beside the young man? It bears a quote from Plato, hinting that Socrates’ ideas outlive his life. In the end, the painting isn’t just a history lesson; it’s a visual protest that still echoes today.",
+  "video": "art\\1\\video.mp4",
+  "cover": "art\\1\\thumbnails\\cover.jpg",
+  "publish_status": "not_posted"
+}

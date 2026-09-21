@@ -30,6 +30,42 @@ def _referenced_files(package: dict) -> list:
     return [p.replace("\\", "/") for p in paths]
 
 
+def _copy_art(day_dir: Path, dest: Path) -> bool:
+    """Copy a day's art/ subtree (each piece's package.json + its own media,
+    all already relative to day_dir) and write art/items.json for the
+    frontend to fetch in one request. Returns True if any art content exists."""
+    art_src = day_dir / "art"
+    if not art_src.exists():
+        return False
+
+    items = []
+    for sub in sorted(art_src.iterdir(), key=lambda p: p.name):
+        pkg_path = sub / "package.json"
+        if not pkg_path.exists():
+            continue
+        with open(pkg_path, "r", encoding="utf-8") as f:
+            package = json.load(f)
+        items.append(package)
+
+        art_dest = dest / "art" / sub.name
+        art_dest.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(pkg_path, art_dest / "package.json")
+        for rel in [package["video"], package["cover"]]:
+            rel = rel.replace("\\", "/")
+            src = day_dir / rel
+            if not src.exists():
+                continue
+            out = dest / rel
+            out.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(src, out)
+
+    if not items:
+        return False
+    with open(dest / "art" / "items.json", "w", encoding="utf-8") as f:
+        json.dump(items, f, ensure_ascii=False)
+    return True
+
+
 def build(keep_days: int = 14) -> Path:
     cfg = load_config()
     output_dir = ROOT / cfg["paths"]["output_dir"]
@@ -43,7 +79,10 @@ def build(keep_days: int = 14) -> Path:
         shutil.copyfile(frontend_dir / name, site_dir / name)
 
     day_dirs = sorted(
-        (p for p in output_dir.iterdir() if p.is_dir() and (p / "package.json").exists()),
+        (
+            p for p in output_dir.iterdir()
+            if p.is_dir() and ((p / "package.json").exists() or (p / "art").exists())
+        ),
         key=lambda p: p.name,
         reverse=True,
     )
@@ -54,26 +93,36 @@ def build(keep_days: int = 14) -> Path:
         if existing.is_dir() and existing.name not in kept_names:
             shutil.rmtree(existing)
 
+    main_day_names = set()
+    art_day_names = set()
     for day_dir in kept:
         date_str = day_dir.name
-        with open(day_dir / "package.json", "r", encoding="utf-8") as f:
-            package = json.load(f)
-
         dest = data_dir / date_str
         dest.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(day_dir / "package.json", dest / "package.json")
 
-        for rel in _referenced_files(package):
-            src = day_dir / rel
-            if not src.exists():
-                continue
-            out = dest / rel
-            out.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(src, out)
+        if (day_dir / "package.json").exists():
+            with open(day_dir / "package.json", "r", encoding="utf-8") as f:
+                package = json.load(f)
+            shutil.copyfile(day_dir / "package.json", dest / "package.json")
+            for rel in _referenced_files(package):
+                src = day_dir / rel
+                if not src.exists():
+                    continue
+                out = dest / rel
+                out.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(src, out)
+            main_day_names.add(date_str)
+
+        if _copy_art(day_dir, dest):
+            art_day_names.add(date_str)
 
     days_json = data_dir / "days.json"
     with open(days_json, "w", encoding="utf-8") as f:
-        json.dump(sorted(kept_names, reverse=True), f)
+        json.dump(sorted(main_day_names, reverse=True), f)
+
+    art_days_json = data_dir / "art_days.json"
+    with open(art_days_json, "w", encoding="utf-8") as f:
+        json.dump(sorted(art_day_names, reverse=True), f)
 
     return site_dir
 

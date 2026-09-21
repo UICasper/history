@@ -34,7 +34,7 @@ jobs:
         working-directory: remotion
         run: npm install
 
-      - name: Run daily pipeline
+      - name: Run daily pipeline (main object)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -43,7 +43,21 @@ jobs:
           RIJKSMUSEUM_API_KEY: ${{ secrets.RIJKSMUSEUM_API_KEY }}
         run: python -m pipeline.run
 
+      # Each step below runs even if an earlier one failed (e.g. a transient
+      # Gemini 503) -- one stream's failure shouldn't block the other stream
+      # or stop today's site from publishing whatever did succeed.
+      - name: Run daily pipeline (art explainer)
+        if: always()
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          SMITHSONIAN_API_KEY: ${{ secrets.SMITHSONIAN_API_KEY }}
+          RIJKSMUSEUM_API_KEY: ${{ secrets.RIJKSMUSEUM_API_KEY }}
+        run: python -m pipeline.run_art
+
       - name: Upload today's package as a build artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: content-package-${{ github.run_id }}
@@ -51,9 +65,11 @@ jobs:
           retention-days: 14
 
       - name: Build static dashboard site (docs/)
+        if: always()
         run: python -m scripts.build_static_site
 
       - name: Publish docs/ to the repo for GitHub Pages
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
