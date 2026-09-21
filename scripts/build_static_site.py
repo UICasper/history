@@ -11,6 +11,7 @@ Usage: python -m scripts.build_static_site [--keep-days N]
 """
 
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -77,6 +78,17 @@ def build(keep_days: int = 14) -> Path:
     frontend_dir = ROOT / "dashboard" / "frontend"
     for name in FRONTEND_FILES:
         shutil.copyfile(frontend_dir / name, site_dir / name)
+
+    # Cache-bust app.js/style.css: browsers (and GitHub's CDN) can cache
+    # these at the bare filename for a while, so without a version query a
+    # visitor can end up with a fresh index.html paired with a stale script
+    # -- new markup (e.g. a nav button) whose click handler never fires.
+    index_path = site_dir / "index.html"
+    html = index_path.read_text(encoding="utf-8")
+    for name in ["app.js", "style.css"]:
+        digest = hashlib.sha1((site_dir / name).read_bytes()).hexdigest()[:10]
+        html = html.replace(f'"{name}"', f'"{name}?v={digest}"')
+    index_path.write_text(html, encoding="utf-8")
 
     day_dirs = sorted(
         (
