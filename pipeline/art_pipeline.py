@@ -146,11 +146,26 @@ Why this painting was chosen: {pick_reason}
 Write ALL of the following in one response:
 
 1. script: a spoken narration script, {word_min}-{word_max} words, for a
-   {duration_min}-{duration_max} second video. Cover, quickly and in this
-   rough order: the single most striking/surprising thing about it first (no
-   throat-clearing intro), then artist + date, the subject/story, technique
-   or materials, one hidden detail or symbol worth zooming into, and a short
-   closing line. Keep every sentence tight -- this is a rapid-fire highlight
+   {duration_min}-{duration_max} second video.
+
+   The FIRST sentence is the hook and must stand alone: 6-12 words, spoken
+   in under 3 seconds, with zero setup. Do not name the painting, the
+   artist, or say anything like "this painting" / "today" / "let's look
+   at" -- open with the single most shocking claim, a direct question to
+   the viewer, or an unresolved detail, phrased so a scrolling viewer
+   would stop mid-scroll and feel like they CANNOT look away or skip this
+   one. Make it feel urgent and personal, not like a museum caption.
+   ("A man was murdered for owning this." / "Look closely -- someone is
+   stealing from him right now." / "This 'saint' is actually a self-
+   portrait of the artist." / "You've seen this painting your whole
+   life and missed this.") Only after that hook lands do you reveal what
+   the painting is.
+
+   After the hook, cover quickly and in this rough order: artist + date,
+   the subject/story, technique or materials, one hidden detail or symbol
+   worth zooming into, and a short closing line (a punchy final fact or a
+   question back to the viewer -- never "thanks for watching" or any
+   sign-off). Keep every sentence tight -- this is a rapid-fire highlight
    reel, not a lecture.
 
 2. title_options: exactly 3 title options.
@@ -164,9 +179,12 @@ Write ALL of the following in one response:
 6. thumbnail_text_options: 3 short (2-4 word) high-contrast hook phrases,
    ALL CAPS.
 
-7. shot_list: one entry per visual across the ENTIRE video, roughly every
-   {pace_min}-{pace_max} seconds (~{shot_count_min}-{shot_count_max} entries
-   total). This video only ever shows THIS ONE real painting -- every shot
+7. shot_list: REQUIRED, and it must have {shot_count_min}-{shot_count_max}
+   entries -- never just one or two. One entry per visual across the
+   ENTIRE video, roughly every {pace_min}-{pace_max} seconds, so the image
+   on screen keeps changing in sync with the script for its full length;
+   a single static shot for the whole video is wrong even if the script
+   is short. This video only ever shows THIS ONE real painting -- every shot
    is either the whole painting (asset_ref "main", motion "reveal") or a
    close crop of one region of it (asset_ref like "crop_03"). Pick motion
    (parallax / spotlight / annotation / reveal / static) per shot, exactly

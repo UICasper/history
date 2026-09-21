@@ -83,5 +83,7 @@ class ArtPackage(BaseModel):
         description="3 short (2-4 word) high-contrast hook phrases for the thumbnail"
     )
     shot_list: List[ArtShotItem] = Field(
-        description="One entry per 3-4.5s visual across the whole video, in order"
+        min_length=6,
+        description="One entry per 3-4.5s visual across the whole video, in order -- "
+        "must have enough entries to cover the full spoken script, never just one",
     )

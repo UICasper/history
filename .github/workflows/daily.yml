@@ -2,9 +2,11 @@ name: Daily content pipeline
 
 on:
   schedule:
-    # 06:00 local (config/config.json) is approximate here -- GitHub Actions
-    # cron is always UTC. Adjust the hour below to match your timezone.
-    - cron: "0 6 * * *"
+    # 06:00 Ulaanbaatar time (UTC+8, config/config.json's schedule.time) --
+    # GitHub Actions cron is always UTC, so this is 22:00 UTC the day before.
+    # GitHub Actions cron runs are best-effort and often land 5-20 min late
+    # during peak load; that's normal.
+    - cron: "0 22 * * *"
   workflow_dispatch: {}
 
 permissions:
