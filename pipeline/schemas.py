@@ -64,8 +64,15 @@ class VideoPackage(BaseModel):
 
 class ArtShotItem(BaseModel):
     duration_sec: float = Field(description="3-4.5 seconds for most shots")
-    asset_ref: str = Field(
-        description="'main' for the whole painting, or a crop id like 'crop_03'"
+    focus_x: float = Field(
+        default=0.5, ge=0.0, le=1.0,
+        description="Fraction across the full painting image (0=left edge, 1=right "
+        "edge) of the specific detail this shot's narration is about right now",
+    )
+    focus_y: float = Field(
+        default=0.5, ge=0.0, le=1.0,
+        description="Fraction down the full painting image (0=top edge, 1=bottom "
+        "edge) of that same detail",
     )
     motion: Motion
     notes: str = ""

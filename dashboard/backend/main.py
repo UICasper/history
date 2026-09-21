@@ -224,7 +224,7 @@ class ArtRegenerateRequest(BaseModel):
     stage: str  # one of ART_STAGE_ORDER
 
 
-ART_STAGE_ORDER = ["pick", "script", "assets", "voice", "render", "thumb", "package"]
+ART_STAGE_ORDER = ["pick", "assets", "script", "voice", "render", "thumb", "package"]
 
 
 @app.post("/api/art/days/{date_str}/{index}/regenerate")
@@ -237,8 +237,8 @@ def regenerate_art(date_str: str, index: int, body: ArtRegenerateRequest, _: Non
     start_index = ART_STAGE_ORDER.index(body.stage)
 
     s1 = art_pipeline.pick_painting(index, run_date=d, force=start_index <= 0)
-    s2 = art_pipeline.generate_script(index, s1, run_date=d, force=start_index <= 1)
-    s3 = art_pipeline.gather_assets(index, s1, run_date=d, force=start_index <= 2)
+    s3 = art_pipeline.gather_assets(index, s1, run_date=d, force=start_index <= 1)
+    s2 = art_pipeline.generate_script(index, s1, s3, run_date=d, force=start_index <= 2)
     try:
         s4 = art_pipeline.synthesize_voice(index, s2, run_date=d, force=start_index <= 3)
     except Exception:

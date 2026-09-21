@@ -40,6 +40,7 @@ def generate_structured(prompt: str, schema: Type[T], model: str = "openai/gpt-o
             ],
             "response_format": {"type": "json_object"},
             "temperature": 0.8,
+            "max_tokens": 8192,
         },
         timeout=120,
     )

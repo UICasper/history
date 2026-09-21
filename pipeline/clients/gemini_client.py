@@ -1,5 +1,5 @@
 import time
-from typing import Type, TypeVar
+from typing import List, Optional, Type, TypeVar
 
 from google import genai
 from google.genai import errors, types
@@ -26,13 +26,28 @@ def _get_client() -> genai.Client:
     return _client
 
 
-def generate_structured(prompt: str, schema: Type[T], model: str = "gemini-3.5-flash") -> T:
+def generate_structured(
+    prompt: str,
+    schema: Type[T],
+    model: str = "gemini-3.5-flash",
+    images: Optional[List[tuple]] = None,
+) -> T:
+    """images: optional list of (label, PIL.Image) pairs, each sent to the
+    model as "<label>:" followed by the image, before the text prompt --
+    lets the model ground its answer (e.g. which crop to reference) in what
+    it actually sees rather than guessing ids blind."""
     client = _get_client()
+    contents = []
+    for label, img in images or []:
+        contents.append(f"{label}:")
+        contents.append(img)
+    contents.append(prompt)
+
     for attempt in range(_MAX_ATTEMPTS):
         try:
             response = client.models.generate_content(
                 model=model,
-                contents=prompt,
+                contents=contents,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
                     response_schema=schema,

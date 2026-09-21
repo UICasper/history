@@ -12,6 +12,7 @@ pieces together, not reimplementing them.
 
 import random
 from datetime import date
+from pathlib import Path
 from typing import Optional
 
 import requests
@@ -23,8 +24,8 @@ from .clients.llm_client import generate_structured
 from .schemas import ArtPackage, ObjectPick
 from .stage3_assets import _detail_crops, _download_image, _save_image
 from .stage5_render import (
-    _build_pools,
     _chapter_cue_seconds,
+    _copy_asset,
     _encode_sequence,
     _mux_audio,
     _prepare_audio_files,
@@ -197,14 +198,26 @@ Write ALL of the following in one response:
    ENTIRE video, roughly every {pace_min}-{pace_max} seconds, so the image
    on screen keeps changing in sync with the script for its full length;
    a single static shot for the whole video is wrong even if the script
-   is short. This video only ever shows THIS ONE real painting -- every shot
-   is either the whole painting (asset_ref "main", motion "reveal") or a
-   close crop of one region of it (asset_ref like "crop_03"). Pick motion
-   (parallax / spotlight / annotation / reveal / static) per shot, exactly
-   one per shot, never stacked, and never "data_animation" (not available
-   here). Use "reveal" for the shot(s) showing the whole painting -- put one
-   near the start. Use "parallax" at most once, only if the painting has a
-   clear single foreground subject.
+   is short.
+
+   You were shown the full painting image above this prompt. For every
+   shot, set focus_x/focus_y to the exact spot in THAT image where the
+   thing you're narrating at that moment actually is -- e.g. if the
+   script says "look at the dog hiding behind the column", focus_x/
+   focus_y must be the dog's real position in the image you were shown,
+   not the center and not a guess. The video will zoom into that exact
+   point, so it must be correct. Only leave focus_x/focus_y at 0.5/0.5
+   when the shot is genuinely about the whole composition, not one
+   detail. Every shot's motion determines what happens visually:
+
+   - "reveal": shows the whole painting -- put one near the start.
+   - "spotlight" / "annotation" / "static": zooms into focus_x/focus_y --
+     use these for every specific detail, face, or object you name.
+   - "parallax": whole painting with a foreground/background drift --
+     use at most once, only if there's a clear single foreground subject.
+   - never "data_animation" (not available here).
+
+   Pick exactly one motion per shot, never stacked.
 """
 
 
@@ -228,7 +241,14 @@ def _build_art_prompt(object_data: dict, pick_reason: str) -> str:
     )
 
 
-def generate_script(index: int, stage_pick: dict, run_date: Optional[date] = None, force: bool = False) -> dict:
+def generate_script(
+    index: int, stage_pick: dict, stage_assets: dict, run_date: Optional[date] = None, force: bool = False
+) -> dict:
+    """Writes the script and picks each shot's zoom target (focus_x/focus_y)
+    in one vision call: the model is shown the real painting so it can point
+    at the actual location of whatever it's narrating, instead of picking a
+    pre-made random crop that may not contain that detail at all (the bug
+    this fixed: uncorrelated crops flashing over unrelated narration)."""
     stage_name = f"art{index}_script"
     logger = get_logger(run_date)
 
@@ -238,9 +258,12 @@ def generate_script(index: int, stage_pick: dict, run_date: Optional[date] = Non
             logger.info("art%d: using cached script", index)
             return cached
 
-    logger.info("art%d: calling Gemini for script + metadata", index)
+    logger.info("art%d: calling Gemini for script + metadata (vision-grounded zoom targets)", index)
+    out_dir = output_dir_for(run_date)
+    images = [("the full painting", Image.open(out_dir / stage_assets["main_image"]).convert("RGB"))]
+
     prompt = _build_art_prompt(stage_pick["object"], stage_pick["pick_reason"])
-    package: ArtPackage = generate_structured(prompt, ArtPackage)
+    package: ArtPackage = generate_structured(prompt, ArtPackage, images=images)
 
     result = package.model_dump()
     save_stage(stage_name, result, run_date)
@@ -339,6 +362,17 @@ def synthesize_voice(index: int, stage_script: dict, run_date: Optional[date] = 
 
 # ---------------------------------------------------------------- stage 5 --
 
+def _focus_crop(img: Image.Image, focus_x: float, focus_y: float, frac: float = 0.4) -> Image.Image:
+    """A square crop of img centered on (focus_x, focus_y) (both 0-1
+    fractions of the image), clamped so it never runs off the edge."""
+    w, h = img.size
+    size = max(1, int(min(w, h) * frac))
+    cx, cy = int(focus_x * w), int(focus_y * h)
+    x0 = max(0, min(w - size, cx - size // 2))
+    y0 = max(0, min(h - size, cy - size // 2))
+    return img.crop((x0, y0, x0 + size, y0 + size))
+
+
 def render_video(
     index: int,
     stage_script: dict,
@@ -366,14 +400,33 @@ def render_video(
         shutil.rmtree(public_dir)
     public_dir.mkdir(parents=True, exist_ok=True)
 
-    pools = _build_pools(stage_assets)
-    counters: dict = {}
+    main_img_full = Image.open(out_dir / stage_assets["main_image"]).convert("RGB")
     shots = []
-    for s in stage_script["shot_list"]:
+    for i, s in enumerate(stage_script["shot_list"]):
         shot = dict(s)
         shot["chapter"] = "art"
         shot["asset_type"] = "museum_image_crop"
-        shots.append(_resolve_shot_image(shot, stage_assets, out_dir, public_dir, pools, counters))
+        motion = shot["motion"]
+
+        if motion == "parallax" and stage_assets.get("parallax"):
+            shots.append(_resolve_shot_image(shot, stage_assets, out_dir, public_dir, {}, {}))
+            continue
+
+        if motion == "reveal":
+            shot["image"] = _copy_asset(out_dir / stage_assets["main_image"], public_dir, f"shot_reveal_{i:02d}.jpg")
+            shots.append(shot)
+            continue
+
+        # spotlight / annotation / static / a parallax fallback with no rembg
+        # layers -- zoom into the exact spot the model pointed at, cropped
+        # fresh from the full-res painting rather than picking from a fixed
+        # set of random pre-made crops that may not contain that detail.
+        crop = _focus_crop(main_img_full, shot.get("focus_x", 0.5), shot.get("focus_y", 0.5))
+        dest_path = public_dir / f"shot_focus_{i:02d}.jpg"
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        crop.save(dest_path, quality=92)
+        shot["image"] = dest_path.name
+        shots.append(shot)
 
     for shot in shots:
         if shot.get("image"):
@@ -524,8 +577,8 @@ def assemble_package(
 
 def run_one(index: int, run_date: Optional[date] = None, force: bool = False) -> dict:
     s1 = pick_painting(index, run_date=run_date, force=force)
-    s2 = generate_script(index, s1, run_date=run_date, force=force)
     s3 = gather_assets(index, s1, run_date=run_date, force=force)
+    s2 = generate_script(index, s1, s3, run_date=run_date, force=force)
     try:
         s4 = synthesize_voice(index, s2, run_date=run_date, force=force)
     except Exception as e:

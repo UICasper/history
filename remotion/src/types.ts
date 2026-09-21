@@ -9,7 +9,6 @@ export type Chapter =
 export type AssetType =
   | "museum_image_crop"
   | "comparison_object"
-  | "illustration"
   | "code_animation";
 
 export type Motion =
@@ -24,7 +23,10 @@ export interface ShotListItem {
   chapter: Chapter;
   duration_sec: number;
   asset_type: AssetType;
-  asset_ref: string;
+  asset_ref?: string;
+  /** Art Explainer only: 0-1 fractions of the full painting the shot zooms into. */
+  focus_x?: number;
+  focus_y?: number;
   motion: Motion;
   notes?: string;
   /** Resolved by the Python "prepare" step to a path under public/. */
