@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-20",
+  "object": {
+    "museum": "met",
+    "object_id": 472562,
+    "title": "The Fieschi Morgan Staurotheke",
+    "object_url": "https://www.metmuseum.org/art/collection/search/472562",
+    "pick_reason": "This tiny Byzantine box features a secret sliding lid designed to hold and protect what was believed to be a fragment of the True Cross."
+  },
+  "metadata": {
+    "title_options": [
+      "The Golden Box with a Holy Secret",
+      "Inside the Byzantine sliding-lid relic box",
+      "Why did this tiny 9th-century box slide open?"
+    ],
+    "description": "Discover the incredible secret hidden inside this 1000-year-old golden box!\nThis tiny Byzantine masterpiece features a precision sliding lid designed to protect a priceless relic.\n\n0:00 - The Mystery Box\n0:35 - Revealing the Staurotheke\n1:10 - How It Was Used\n1:50 - Comparing Byzantine Reliquaries\n2:25 - From Constantinople to New York\n3:10 - Where to See It Today\n\n#ByzantineArt #HistoryMysteries #MetMuseum #MedievalHistory #GoldRelic",
+    "tags": "Byzantine history, reliquary, True Cross, medieval art, Met Museum, Constantinople, golden box, gold enamel, Fieschi Morgan, Staurotheke, art history, ancient secrets",
+    "pinned_comment": "If you could design a tiny, secret-sliding box for yourself today, what precious object would you hide inside? Let us know in the comments!"
+  },
+  "scripts": {
+    "long": "At first glance, this might look like a modern, luxury pillbox, or perhaps a secret puzzle box. It is smaller than a modern smartphone, crafted from gold, and covered in colorful, delicate portraits. But look closer at its design. Notice how the top isn't on a hinge, but is built to slide open, revealing a hidden, cross-shaped compartment inside. What is this miniature treasure, and what incredibly sacred relic was it meant to protect? This is the Fieschi Morgan Staurotheke, an exquisite Byzantine reliquary dating back to the early ninth century. Created in Constantinople, this pocket-sized masterpiece is made of gilded silver, gold, cloisonné enamel, and dark niello. The word 'Staurotheke' literally means 'cross-box' in Greek. It was designed specifically to hold and protect a tiny fragment of what medieval Christians believed to be the True Cross—the actual wooden cross on which Jesus Christ was crucified. Imagine holding this box in your hands over a thousand years ago. The golden lid doesn't pop open; instead, it slides out smoothly along narrow, precision-cut grooves—a mechanical marvel of medieval engineering. Inside, you are met with a cruciform compartment. Within this tiny cross-shaped space sat the precious fragment of holy wood. The exterior lid depicts the Crucifixion of Christ, surrounded by saints, while the reverse side of the lid shows intimate scenes from Christ's life. It wasn't just a container; it was an interactive aid for private devotion. Its owner, likely a high-ranking noble or cleric, could carry this ultimate spiritual protection wherever they traveled, sliding open the lid to touch or gaze upon the holy relic in times of personal crisis or prayer. During the Byzantine Empire, reliquaries for the True Cross were highly prized symbols of status and faith. Other staurothekai exist from this era, but many are far larger, designed for church altars, or made of simpler wood and bronze. What makes this one stand out is its incredibly early date—created during the Iconoclastic period when religious images were often banned—and its microscopic level of cloisonné enamel work, which was a cutting-edge, high-status technology of the time. This tiny box has lived through a legendary journey. It likely originated in the imperial workshops of Constantinople. Over centuries of turmoil, it traveled west, perhaps carried by a crusader or sent as an imperial diplomatic gift to European royalty. By the nineteenth century, it belonged to the noble Fieschi family of Genoa, Italy. Later, it caught the eye of the legendary American financier and art collector J. Pierpont Morgan, who purchased it to secure its survival. Today, the Fieschi Morgan Staurotheke is safely preserved in the Metropolitan Museum of Art in New York City. Even in a room filled with massive stone arches and towering medieval tapestries, this tiny golden box draws visitors in with its microscopic beauty and immense history. If you could own a miniature secret box like this, what personal treasure would you keep hidden inside? Let us know in the comments below!",
+    "shorts": "This tiny, thousand-year-old golden box has a secret sliding lid! Why? Because it was built to hold the most sought-after relic in history: a piece of the True Cross. Created in ninth-century Constantinople, this pocket-sized masterpiece uses gold and cloisonné enamel to protect a cross-shaped inner chamber. It acted like a medieval spiritual shield, allowing its wealthy owner to carry ultimate protection wherever they traveled. But how did this tiny treasure survive crusades, wars, and centuries of chaos to end up in New York City? The secret lies in who bought it..."
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "HOLY SECRET?",
+      "path": "thumbnails\\thumbnail_00.jpg"
+    },
+    {
+      "text": "TINY GOLD BOX",
+      "path": "thumbnails\\thumbnail_01.jpg"
+    },
+    {
+      "text": "USED FOR WHAT?",
+      "path": "thumbnails\\thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails\\shorts_cover.jpg",
+  "publish_status": "not_posted"
+}

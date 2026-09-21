@@ -90,25 +90,32 @@ def build(keep_days: int = 14) -> Path:
         html = html.replace(f'"{name}"', f'"{name}?v={digest}"')
     index_path.write_text(html, encoding="utf-8")
 
-    day_dirs = sorted(
-        (
-            p for p in output_dir.iterdir()
-            if p.is_dir() and ((p / "package.json").exists() or (p / "art").exists())
-        ),
-        key=lambda p: p.name,
-        reverse=True,
-    )
-    kept = day_dirs[:keep_days]
-    kept_names = {p.name for p in kept}
+    # output/ is gitignored and never persisted between CI runs -- a fresh
+    # GitHub Actions checkout only ever has TODAY's output/<date> locally,
+    # not the days a previous run already published. Treating local output/
+    # as the whole world (as this used to) meant every CI-built docs/ only
+    # contained today, deleting every previously-published day's videos.
+    # Instead: local output/<date> dirs are rebuilt fresh (today's real
+    # source of truth); any date already published in docs/data/ but absent
+    # from local output/ is left on disk untouched, so it survives across
+    # ephemeral CI runs. Only dates outside the keep-days window get pruned.
+    local_days = {
+        p.name: p
+        for p in output_dir.iterdir()
+        if p.is_dir() and ((p / "package.json").exists() or (p / "art").exists())
+    }
+    existing_dest_days = {p.name for p in data_dir.iterdir() if p.is_dir()}
+    all_dates = sorted(set(local_days) | existing_dest_days, reverse=True)
+    kept_names = set(all_dates[:keep_days])
 
-    for existing in data_dir.iterdir():
-        if existing.is_dir() and existing.name not in kept_names:
-            shutil.rmtree(existing)
+    for name in existing_dest_days:
+        if name not in kept_names:
+            shutil.rmtree(data_dir / name)
 
-    main_day_names = set()
-    art_day_names = set()
-    for day_dir in kept:
-        date_str = day_dir.name
+    for date_str in kept_names:
+        day_dir = local_days.get(date_str)
+        if day_dir is None:
+            continue  # only in existing docs/data (prior run) -- leave as-is
         dest = data_dir / date_str
         dest.mkdir(parents=True, exist_ok=True)
 
@@ -123,10 +130,13 @@ def build(keep_days: int = 14) -> Path:
                 out = dest / rel
                 out.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(src, out)
-            main_day_names.add(date_str)
 
-        if _copy_art(day_dir, dest):
-            art_day_names.add(date_str)
+        _copy_art(day_dir, dest)
+
+    # Reflect what's actually on disk for every kept date, whether just
+    # rebuilt from local output/ or carried over untouched from a prior run.
+    main_day_names = [d for d in kept_names if (data_dir / d / "package.json").exists()]
+    art_day_names = [d for d in kept_names if (data_dir / d / "art").exists()]
 
     days_json = data_dir / "days.json"
     with open(days_json, "w", encoding="utf-8") as f:
