@@ -12,6 +12,7 @@ the render can still be exercised end-to-end.
 """
 
 import json
+import os
 import random
 import shutil
 import subprocess
@@ -210,6 +211,12 @@ def _render_sequence(composition_id: str, props_path: Path, seq_dir: Path, port:
     (e.g. the two Art Explainer pieces running in parallel) don't collide.
     """
     seq_dir.mkdir(parents=True, exist_ok=True)
+    # shell=True with a list arg is a POSIX/Windows split: on Windows, Python
+    # joins the list into one command line and runs it via cmd.exe (fine); on
+    # POSIX, only the first item is run as the shell command and everything
+    # else becomes the shell's own positional params, silently dropped --
+    # `npx` then ran bare with no arguments, rendering nothing. Only needed
+    # on Windows, where npx resolves to npx.cmd.
     subprocess.run(
         [
             "npx", "remotion", "render", "src/index.ts", composition_id, str(seq_dir),
@@ -217,7 +224,7 @@ def _render_sequence(composition_id: str, props_path: Path, seq_dir: Path, port:
         ],
         cwd=str(REMOTION_DIR),
         check=True,
-        shell=True,
+        shell=(os.name == "nt"),
     )
 
 
