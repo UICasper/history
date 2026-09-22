@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-22",
+  "object": {
+    "museum": "met",
+    "object_id": 452364,
+    "title": "Mirror with Split-Leaf Palmette Design Inlaid with Gold",
+    "object_url": "https://www.metmuseum.org/art/collection/search/452364",
+    "pick_reason": "At first glance, this ornate gold-and-ivory iron disc looks like a ceremonial paddle or weapon, but it is actually a luxurious 16th-century hand mirror."
+  },
+  "metadata": {
+    "title_options": [
+      "This Gold Mirror Isn't a Weapon – What Is It?",
+      "16th‑Century Ottoman Hand Mirror Mystery",
+      "Gold‑Inlaid Mirror: Luxury or Weapon?"
+    ],
+    "description": "What looks like a tiny gold sword is actually a 16th‑century Ottoman hand mirror! 🌟\nDiscover its secret purpose, origin, and why it's a museum treasure.\n\n0:00 – Quiz: Guess the object\n0:30 – Reveal: Full view of the mirror\n1:00 – How it was used: Ottoman grooming rituals\n1:30 – Similar objects: Mirrors around the world\n2:00 – Where it came from: From Bursa to the Met\n2:30 – Where it is now: The Met’s Islamic Art collection\n\nIf you love hidden history, smash that like button and subscribe for daily discoveries!\n#HistoryMystery #OttomanArt #MuseumSecrets #WhatIsThisThing #MetMuseum",
+    "tags": "history,museum,Ottoman,hand mirror,gold inlay,Islamic art,Met Museum,artifact,16th century,curiosity",
+    "pinned_comment": "What do you think this gorgeous mirror was used for? Share your thoughts below!"
+  },
+  "scripts": {
+    "long": "Quiz: Imagine a glittering gold-and-ivory disc, its edges shaped like a leaf and its surface gleaming with intricate filigree. It looks like a ceremonial paddle or a tiny weapon. What is this object, and what was it used for?\n\nReveal: Here it is in full – a hand‑mirror from the early 16th‑century Ottoman world, its iron frame inlaid with gold and ivory, round and only about twelve centimeters across. The mirror’s polished surface catches the light, turning a simple grooming tool into a work of art.\n\nHow it was used: In the opulent courts of the Ottoman Empire, mirrors like this were prized by elite women. They would set the mirror on a vanity or hold it while arranging their veils, checking makeup, or admiring the fine details of a silk kerchief. The gold inlay signalled wealth, and the ivory accents added a touch of exotic luxury. Such mirrors travelled with a lady’s dowry, appearing at weddings and royal visits as symbols of status.\n\nSimilar objects: This piece belongs to a small family of Ottoman mirrors, many of which feature the same split‑leaf palmette motif. Across the Mediterranean, Chinese bronze mirrors with polished backs were also prized, while in Europe the 16th‑century began to see glass‑backed mirrors framed in gilt wood. All share a common purpose – reflecting the wearer – but the Ottoman version stands out for its metal‑inlay technique.\n\nWhere it came from: The mirror was most likely crafted in the bustling workshops of Bursa or Istanbul, cities renowned for metalwork and ivory carving. Ottoman artisans combined imported ivory with locally forged iron, then gilded the design by hand. In 1972 the Fletcher Fund acquired the piece for the Metropolitan Museum of Art, recognizing its rarity and exquisite craftsmanship.\n\nWhere it is now: Today the mirror rests in the Met’s Islamic Art department, displayed behind glass with a brief label. It’s one of only a handful of surviving hand‑mirrors from this period, offering a glimpse into the daily rituals of Ottoman aristocracy. What would you do with a mirror this beautiful? Let us know in the comments!",
+    "shorts": "A 16th‑century Ottoman hand‑mirror looks like a tiny gold sword! It was actually a luxury grooming tool for elite women, reflecting their veils and makeup. Ottoman metalworkers mixed iron, gold, and ivory in Bursa, creating intricate palmette designs. Similar mirrors existed in China and Europe, but this one’s inlaid gold makes it unique. It traveled to the Met in 1972 via the Fletcher Fund. Want to see the full story and the surprising detail hidden on its back? Watch the full video now!"
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "WHAT IS THIS?",
+      "path": "thumbnails/thumbnail_00.jpg"
+    },
+    {
+      "text": "GOLD MIRROR",
+      "path": "thumbnails/thumbnail_01.jpg"
+    },
+    {
+      "text": "NOT A WEAPON",
+      "path": "thumbnails/thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails/shorts_cover.jpg",
+  "publish_status": "not_posted"
+}
