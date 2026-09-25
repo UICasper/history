@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-25",
+  "object": {
+    "museum": "met",
+    "object_id": 194191,
+    "title": "Clock watch with astronomical dial and sundial",
+    "object_url": "https://www.metmuseum.org/art/collection/search/194191",
+    "pick_reason": "This 400-year-old brass pocket gadget is an early mechanical smartwatch, combining a mechanical clock, astronomical dial, and folding sundial into one portable device."
+  },
+  "metadata": {
+    "title_options": [
+      "The 400-Year-Old Renaissance Smartwatch",
+      "Before Apple: The Pocket Gadget of 1605",
+      "How Elites Told Time Before Modern Clocks"
+    ],
+    "description": "Discover the incredible history of this 400-year-old Renaissance smartwatch that combined a mechanical clock and a folding sundial!\nLearn how 17th-century elites kept perfect time using the sun and moon.\n\n0:00 - What Is This Thing?\n0:28 - The Reveal\n0:56 - How It Was Used\n1:35 - Similar Objects\n2:10 - Where It Came From\n2:42 - Where It Is Now\n\n#history #antiquetech #smartwatch #metmuseum #horology #renaissance",
+    "tags": "antique watch, renaissance smartwatch, met museum, pocket watch history, jan jansen bockeltz, sundial, history of technology, medieval clockwork, astronomical dial",
+    "pinned_comment": "If you could travel back to 1605, what modern feature would you try to explain to this watch's inventor? Let me know in the comments!"
+  },
+  "scripts": {
+    "long": "Take a close look at this beautifully engraved brass disc. It has concentric circles, miniature numbers, and tiny delicate hands. On the other side, there's a mysterious folding needle and a tiny compass-like well. It looks like a prop from a fantasy movie, or maybe a secret key to an ancient temple. But this is a real historical artifact. Can you guess what this highly complex, pocket-sized device actually is, and what people used it for four centuries ago?\n\nThis is the ultimate Renaissance gadget: a clock watch with an astronomical dial and a built-in sundial! Crafted between 1605 and 1610 by the master horologist Jan Jansen Bockeltz, this stunning piece is made of gilded brass, silver, copper, and blued steel. It is literally a 17th-century smartwatch, cramming cutting-edge mechanical timekeeping and astronomical calculations into a brass case that fits right in the palm of your hand.\n\nIn the early 1600s, mechanical clocks were notorious for drifting and losing time throughout the day. So how did you keep it accurate? Easy! You opened the top lid to reveal a miniature, folding sundial. By aligning the sundial with the sun, you could find true solar noon and manually adjust the mechanical hands of your watch. The main dial didn't just tell the hour; it also tracked the phases of the moon, the position of the sun in the zodiac, and the calendar date. It was a status symbol owned only by the ultra-wealthy elites, merchants, and scholars who needed to coordinate journeys or impress peers with their wealth and scientific knowledge.\n\nTo put this in perspective, pocket watches of this era were incredibly rare, and most were simple, single-hand timekeepers housed in plain round cases, or sometimes macabre designs like skull-shaped watches to remind owners of their mortality. While others carried basic clocks, this owner had an entire astronomical observatory in their pocket. It stands out because it combined both mechanical clockwork and astronomical shadow-casting instruments into a singular, highly decorative portable unit.\n\nThis mechanical masterpiece was crafted in Northern Europe, where clockmaking guilds were pushing the boundaries of micro-engineering. The maker, Jan Jansen Bockeltz, was a renowned craftsman of his era. Over the next three centuries, this watch traveled across Europe, surviving wars and revolutions. It eventually caught the eye of the legendary American financier and art collector, J. Pierpont Morgan. Morgan acquired it during his massive collecting sprees and, in 1917, his estate gifted it to the public.\n\nToday, you can marvel at this incredible device at the Metropolitan Museum of Art in New York City, housed in the European Sculpture and Decorative Arts department. It remains a breathtaking testament to human ingenuity before the age of electricity. It is mind-blowing to think that people were carrying around astronomical computers four hundred years ago. If you could go back in time and show a modern smartphone to the maker of this watch, what do you think his reaction would be? Let me know your thoughts in the comments below!",
+    "shorts": "This 400-year-old brass gadget is actually a 17th-century smartwatch! Built around 1605, it didn't just tell the time mechanically. Because early gears often drifted, the maker built a folding sundial right into the case. To fix the time, you simply flipped up the sundial, found solar noon, and reset the watch hands. It also tracked the phases of the moon and zodiac positions! This pocket-sized marvel belonged to the richest elites of the Renaissance. But how did they align the sundial without a modern compass? Click below to find out!"
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "RENAISSANCE SMARTWATCH?",
+      "path": "thumbnails/thumbnail_00.jpg"
+    },
+    {
+      "text": "400 YEARS OLD",
+      "path": "thumbnails/thumbnail_01.jpg"
+    },
+    {
+      "text": "HOW IT WORKS",
+      "path": "thumbnails/thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails/shorts_cover.jpg",
+  "publish_status": "not_posted"
+}
