@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-29",
+  "object": {
+    "museum": "met",
+    "object_id": 206989,
+    "title": "Commode à vantaux",
+    "object_url": "https://www.metmuseum.org/art/collection/search/206989",
+    "pick_reason": "Created by legendary cabinetmaker David Roentgen, this commode contains a complex system of hidden springs, secret drawers, and mechanical components that fly open at the turn of a single key."
+  },
+  "metadata": {
+    "title_options": [
+      "The Secret Drawer That Pops Open With One Key",
+      "Roentgen’s Magical Commode: Hidden Mechanisms Revealed",
+      "How a 1770s Cabinet Became a Mechanical Masterpiece"
+    ],
+    "description": "Ever wondered what secret surprises lie inside an 18th‑century cabinet? 🎩\nWatch a single brass key unleash a cascade of hidden drawers!\n\n0:00 Quiz – Can you guess this mysterious detail?\n0:15 Reveal – The full commode appears\n1:00 How it was used – Aristocratic parties and secret compartments\n1:45 Similar objects – Other Roentgen wonders\n2:20 Where it came from – From a German workshop to the Met\n2:55 Where it is now – Modern restoration and a final mystery\n\nSubscribe for more daily history mysteries! #WhatIsThisThing #Roentgen #HiddenMechanisms #MuseumMysteries",
+    "tags": "history,art,decorative arts,David Roentgen,secret furniture,Metropolitan Museum,European art,mechanical furniture,antique furniture,craftsmanship",
+    "pinned_comment": "Which hidden‑mechanism piece would you love to see next? Drop your suggestions below!"
+  },
+  "scripts": {
+    "long": "[Quiz] A close‑up of a tiny, gleaming brass keyhole set into a dark wood panel. The metal spring inside is barely visible, and a faint outline of a hidden drawer peeks from behind a carved leaf. What is this mysterious piece, and what was it used for?\n\n[Reveal] The camera pulls back to reveal the full object: a stunning 18th‑century commode à vantaux crafted by the legendary German cabinetmaker David Roentgen. Its walnut and mahogany veneer is inlaid with hornbeam, tulipwood, and boxwood, all topped with a sleek marble top and gilt bronze handles. When the hidden key turns, a cascade of secret drawers and panels spring open in a theatrical flourish.\n\n[How it was used] Roentgen’s clients were the aristocratic elite of Europe – French royalty, Austrian dukes, and English nobles who loved to impress their guests with surprise. The commode sat in a grand salon, its doors closed during a formal gathering. At the right moment, the host would turn a discreet key hidden in a decorative knob, and the entire piece would reveal its hidden compartments, displaying fine china, precious jewelry, or secret letters. It was both a functional storage unit and a stage prop for lavish entertaining.\n\n[Similar objects] Roentgen’s workshop produced several \"secret\" furniture pieces: the famous \"Cabinet à Colonnes\" with a pop‑up writing desk, and the \"Piano à Mécanisme\" that unfolded into a full keyboard. Across the Channel, French ébénistes like Jean‑Henri Riesener also experimented with concealed drawers, but none matched Roentgen’s theatrical complexity. In England, Thomas Chippendale’s later \"Secret Chest\" borrowed the idea of hidden panels, though on a smaller scale.\n\n[Where it came from] The commode was commissioned around 1775 for a German prince, likely assembled in Roentgen’s workshop in Neuwied, Germany. After Roentgen’s death, the piece changed hands through several noble collections, surviving the French Revolution and the Napoleonic wars. In the early 20th century it entered the Jack and Belle Linsky Collection, a private assemblage of European decorative arts, before being donated to the Metropolitan Museum of Art in 1982, where it now resides in the European Sculpture and Decorative Arts department.\n\n[Where it is now] Today the commode rests in Gallery 711 of the Met, illuminated by a soft spotlight that highlights its intricate marquetry. One fascinating fact: the hidden spring mechanism was restored in 2015 using 3‑D‑printed replicas of the original parts, allowing the piece to function exactly as Roentgen intended. What other hidden‑mechanism masterpieces do you think are waiting to be discovered in museum basements? Let us know in the comments!",
+    "shorts": "A single brass key unlocks a whole room of secrets – Roentgen’s commode hides dozens of drawers that spring open with one turn. 1) Crafted by master cabinetmaker David Roentgen in the 1770s. 2) Designed for European aristocrats to wow guests with surprise compartments. 3) Features exotic woods, marble, and gilt bronze, all engineered with hidden springs. 4) Restored with 3‑D‑printed parts so the magic still works. 5) Want to see the hidden mechanism in action? Watch the full video now!"
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "SECRET DRAWER?",
+      "path": "thumbnails/thumbnail_00.jpg"
+    },
+    {
+      "text": "ONE KEY MAGIC",
+      "path": "thumbnails/thumbnail_01.jpg"
+    },
+    {
+      "text": "ROENTGEN REVEALED",
+      "path": "thumbnails/thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails/shorts_cover.jpg",
+  "publish_status": "not_posted"
+}
