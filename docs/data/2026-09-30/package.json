@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-30",
+  "object": {
+    "museum": "met",
+    "object_id": 764636,
+    "title": "The Last Toilet of Charlotte Corday",
+    "object_url": "https://www.metmuseum.org/art/collection/search/764636",
+    "pick_reason": "It depicts the astonishing true story of French assassin Charlotte Corday calmly finishing her final portrait sitting while executioners cut her hair for the guillotine."
+  },
+  "metadata": {
+    "title_options": [
+      "She Finished Her Portrait While Waiting For The Guillotine",
+      "The Defiant Last Minutes of Charlotte Corday",
+      "Why Is This Woman So Calm Before Her Execution?"
+    ],
+    "description": "Imagine posing for a portrait while your executioner cuts your hair for the guillotine. This is the chillingly true story behind one of the French Revolution's most defiant figures.\n\n0:00 - The Haircut Mystery\n0:35 - The Last Toilet of Charlotte Corday\n1:15 - Defying the Guillotine\n2:00 - Art of the French Revolution\n2:45 - How It Reached the Met\n3:15 - A Defiant Legacy\n\n#FrenchRevolution #CharlotteCorday #HistoryMystery #MetMuseum #ArtHistory",
+    "tags": "Charlotte Corday, French Revolution, Guillotine, Met Museum, Art History, Lumb Stocks, Jean-Paul Marat, Jacques-Louis David, 19th Century Prints, Historical Mysteries",
+    "pinned_comment": "It's hard to imagine remaining this calm right before facing the guillotine! If you were in Charlotte Corday's shoes, how would you choose to spend your final hours? Let's discuss in the comments!"
+  },
+  "scripts": {
+    "long": "Take a close look at this tiny, cropped detail. You can see a man's hand gently grasping a lock of hair, with heavy metal shears poised to snip. Meanwhile, the subject sits perfectly still, completely unbothered by the sharp blades hovering just inches from her neck. Is this a routine morning grooming session, a bizarre Victorian fashion trend, or a tense moment before a dark fate? What exactly is happening here, and what was this image created for? This is a detailed engraving titled 'The Last Toilet of Charlotte Corday,' created by the master English engraver Lumb Stocks in 1869 or after. The scene captures one of the most astonishingly calm moments in the history of the French Revolution. The serene woman sitting in the chair is Charlotte Corday, the famous assassin who stabbed the Jacobin leader Jean-Paul Marat in his bathtub. The man holding the shears is not a friendly barber; he is the executioner's assistant, preparing her for her final walk to the guillotine. This engraving reconstructs a real historical event from July 17, 1793. Having just been sentenced to death, Corday requested that the painter Jean-Jacques Hauer complete a portrait of her. As Hauer painted, the executioner, Charles-Henri Sanson, entered her cell to cut her hair—a standard procedure so the guillotine blade would fall cleanly. Amazingly, Corday remained completely unflappable. She asked the executioner if she could continue her portrait sitting. He agreed, cutting her long hair while the artist kept painting her. In the 19th century, prints like this were sold to the public as collector's items. They were used to evoke deep emotion, debate political history, and romanticize the tragic figures of the Reign of Terror. Viewers would hang these in their homes, marveling at her stoic composure. This print belongs to a wider genre of French Revolutionary martyrdom art. It draws a stark contrast with Jacques-Louis David's iconic painting 'The Death of Marat,' which painted Corday's victim as a secular saint. In contrast, this print shifts the heroic lens onto Corday herself. It also shares similarities with historical prints depicting Marie Antoinette's final hours, where physical degradation is countered by noble, silent dignity. These prints served as powerful visual propaganda, reshaping historical narratives decades after the events occurred. This specific engraving on delicate chine collé paper was produced in London during the late Victorian era, highlighting the international fascination with French history. It eventually crossed the Atlantic and entered the collection of the Metropolitan Museum of Art in New York in 1986. It was generously gifted by Mrs. Charles Wrightsman, a prominent philanthropist and art collector known for her exquisite taste in French decorative arts and historical prints. Today, the print is preserved in the Department of Drawings and Prints at the Met. Due to its sensitivity to light, it is kept in secure, climate-controlled storage and only shown for special study. It stands as a powerful testament to how art can turn a moment of impending death into a symbol of ultimate defiance. If you were facing your final moments on Earth, how would you choose to be remembered? Let us know your thoughts in the comments below, and don't forget to subscribe for more fascinating historical discoveries!",
+    "shorts": "This woman is calmly finishing her portrait sitting while the executioner cuts her hair for the guillotine. This is Charlotte Corday, who just assassinated French revolutionary Jean-Paul Marat. Sentenced to death in 1793, she spent her final hours posing for painter Jean-Jacques Hauer. When the executioner arrived to clip her locks so the blade would fall cleanly, she simply asked him to let her finish the pose. He cut, she posed, and the artist painted. But what did she say to the executioner right after the hair fell? Watch the full video to find out!"
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "CALM BEFORE DEATH",
+      "path": "thumbnails/thumbnail_00.jpg"
+    },
+    {
+      "text": "GUILLOTINE HAIRCUT",
+      "path": "thumbnails/thumbnail_01.jpg"
+    },
+    {
+      "text": "DEFIANT TO THE END",
+      "path": "thumbnails/thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails/shorts_cover.jpg",
+  "publish_status": "not_posted"
+}
