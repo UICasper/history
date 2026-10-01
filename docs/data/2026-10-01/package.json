@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-01",
+  "object": {
+    "museum": "met",
+    "object_id": 39901,
+    "title": "Night-Shining White",
+    "object_url": "https://www.metmuseum.org/art/collection/search/39901",
+    "pick_reason": "This priceless 1,200-year-old painting is covered in red stamps because emperors and collectors used it like a physical guestbook over the centuries."
+  },
+  "metadata": {
+    "title_options": [
+      "The Red‑Stamped Scroll That Became a Royal Guestbook",
+      "Why Emperors Signed This 1,200‑Year‑Old Horse Painting",
+      "Night‑Shining White: A Tang Dynasty Scroll’s Secret History"
+    ],
+    "description": "A 1,200‑year‑old Chinese horse scroll turned into a royal autograph book!\nDiscover how emperors left their mark on this masterpiece.\n\n0:00 – Quiz: Guess the mysterious silhouette\n0:15 – Reveal: Full view of Night‑Shining White\n0:45 – How it was used: Stamps, poems, and power\n1:30 – Similar objects: Other Tang horse paintings\n2:00 – Where it came from: From the Tang court to the Met\n2:30 – Where it is now: Current display and closing question\n\nWhat stamp surprised you the most? Comment below!\n#ArtHistory #TangDynasty #MetMuseum #ChineseArt #WhatIsThisThing",
+    "tags": "art history, Tang dynasty, Chinese art, Night‑Shining White, Han Gan, Met Museum, scroll, horse painting, red stamps, royal autograph, museum, ancient art, cultural heritage",
+    "pinned_comment": "Which emperor’s stamp on Night‑Shining White surprised you the most? Share your thoughts below!"
+  },
+  "scripts": {
+    "long": "Welcome to What Is This Thing? Today we’re diving into a 1,200‑year‑old Chinese handscroll called Night‑Shining White. But first, a quick quiz: look closely at this dark silhouette of a horse’s flank, barely visible against a sea of red. What is this and what was it used for? \n\n[Pause for audience] \n\nNow, let’s reveal the whole masterpiece. This is the Night‑Shining White handscroll, painted by the Tang‑dynasty master Han Gan around 750 AD. The scroll shows a galloping white horse, rendered with fluid ink strokes that seem to leap off the paper. Yet the most striking feature isn’t the horse at all—it’s the dense layer of crimson stamps that cover almost every inch of the surface. \n\nWho used this scroll, where, and how? Originally a courtly painting, it soon became a living document of power. Emperors, high‑ranking officials, and wealthy collectors treated the scroll like a ceremonial guestbook, adding their red seals, inscriptions, and poems each time it passed through their hands. The practice turned the artwork into a visual chronicle of Tang, Song, Yuan, and even Qing dynastic elites, each leaving a personal mark that announced their presence and prestige. \n\nHow does Night‑Shining White compare to other objects of its era? Similar horse paintings, such as the famous “Running Horse” from the same period, focus solely on the animal’s dynamism. In contrast, other Tang scrolls like the “Spring Landscape” remain relatively untouched by later hands. The heavy stamping on Night‑Shining White is unusual; while other works occasionally bear a single collector’s seal, few have been turned into a continuous autograph roll over centuries. \n\nWhere did this scroll originate? Han Gan, a court painter in Chang’an, created it for an imperial patron. Over the centuries, it traveled through the collections of successive dynasties, eventually entering the hands of European collectors in the 19th century before being acquired by the Metropolitan Museum of Art in 1977, thanks to the Dillon Fund Gift. \n\nAnd where does it reside today? The scroll hangs in the Met’s Asian Art department, displayed in a climate‑controlled case that lets visitors glimpse both the delicate brushwork and the vibrant tapestry of red stamps. One final thought: despite the layers of history, the horse still looks ready to bolt—does the spirit of the original artist survive beneath the centuries of signatures? Let us know in the comments which emperor’s stamp surprised you the most!",
+    "shorts": "This 1,200‑year‑old Chinese horse scroll is covered in red stamps—like a royal autograph book! \n• Painted by Han Gan in the Tang dynasty, featuring a galloping white horse. \n• Emperors and officials added their seals over centuries, turning art into a guestbook. \n• Few artworks survive with such a dense layer of historic signatures. \n• Now it lives at the Met, still dazzling viewers. \nWant to see the full story and the hidden details? Watch the full video!"
+  },
+  "video": {
+    "long": "long.mp4",
+    "shorts": "shorts.mp4"
+  },
+  "thumbnails": [
+    {
+      "text": "RED STAMPS",
+      "path": "thumbnails/thumbnail_00.jpg"
+    },
+    {
+      "text": "ROYAL GUESTBOOK",
+      "path": "thumbnails/thumbnail_01.jpg"
+    },
+    {
+      "text": "1200‑YEAR‑OLD",
+      "path": "thumbnails/thumbnail_02.jpg"
+    }
+  ],
+  "shorts_cover": "thumbnails/shorts_cover.jpg",
+  "publish_status": "not_posted"
+}
